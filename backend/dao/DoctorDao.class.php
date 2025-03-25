@@ -104,7 +104,6 @@ class DoctorDao extends ProjectDao{
 
     }
  
-
     public function getConn(){
         return $this->conn;
     }
