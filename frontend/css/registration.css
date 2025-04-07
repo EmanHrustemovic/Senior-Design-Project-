@@ -31,3 +31,36 @@ img .first{
 .error{
     border: 2px solid crimson;
 }
+body{
+    background: lightgreen;
+
+}
+
+form{
+    /*max-width: 300px;
+    */
+    margin: 40px auto;
+    background: white;
+    padding: 50px;
+}
+
+input{
+    display: block;
+    margin: 10px auto;
+    padding: 4px;
+}
+
+h5{
+    color: white;
+}
+
+img .first{
+    display: block;
+}
+
+.success{
+    border: 2px solid limegreen;
+}
+.error{
+    border: 2px solid crimson;
+}
