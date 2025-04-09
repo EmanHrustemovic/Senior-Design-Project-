@@ -1,0 +1,15 @@
+# IDE fajlovi
+.idea/
+
+# Composer vendor
+/vendor/
+backend/vendor/
+
+# Temp/test fajlovi
+*.log
+*.sql
+backend/dao/test.php
+
+# OS i cache fajlovi
+.DS_Store
+Thumbs.db

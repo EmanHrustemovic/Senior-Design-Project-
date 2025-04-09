@@ -1,0 +1,13 @@
+{
+    "name": "emanhrustemovic/senior_design_project",
+    "type": "project",
+    "authors": [
+        {
+            "name": "EmanHrustemovic",
+            "email": "eman.hrustemovic@stu.ibu.edu.ba"
+        }
+    ],
+    "require": {
+        "flightphp/core": "^3.15"
+    }
+}
