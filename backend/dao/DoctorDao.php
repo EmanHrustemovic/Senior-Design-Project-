@@ -1,5 +1,10 @@
 <?php
 
+namespace App\dao;
+use App\dao\ProjectDao;
+
+use PDO;
+
 require_once 'services/config.php';
 require_once __DIR__ . '/ProjectDao.php';
 
@@ -11,84 +16,58 @@ class DoctorDao extends ProjectDao {
     public function __construct() {
         parent::__construct('doktor');
 
-        try {
-            $servername = 'localhost';
-            $db_name = 'moje_zdravlje';
-            $username = 'root';
-            $password = 'g3c9h.,1?0';
-
-            $this->pdo = new PDO("mysql:host=$servername;dbname={$db_name}", $username, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->conn = "Connected successfully";
-        } catch (PDOException $e) {
-            $this->conn = "Connection failed: " . $e->getMessage();
-        }
     }
 
     public function getAllDoctors() {
-        $stmt = $this->pdo->prepare("SELECT * FROM doktor");
+        $stmt = $this->connection->prepare("SELECT * FROM doktor_info");
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
     public function getByDocID($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM doktor WHERE id = :id");
+        $stmt = $this->connection->prepare("SELECT * FROM doktor_info WHERE user_id = :id");
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch();
     }
 
-    public function addDoctor($data) {
-        $sql = "INSERT INTO doktor (ime, titula, email, password, telefon, odjeljenje) 
-                VALUES(:ime, :titula, :email, :password, :telefon, :odjeljenje)";
-        
-        $stmt = $this->pdo->prepare($sql);
+    public function addDoctor($user_id, $titula, $odjeljenje) {
+        $sql = "INSERT INTO doktor_info (user_id, titula, odjeljenje) 
+            VALUES (:user_id, :titula, :odjeljenje)";
 
-        $ime = $data['ime'];
-        $titula = $data['titula'];
-        $email = $data['email'];
-        $password = $data['password'];
-        $telefon = $data['telefon'];
-        $odjeljenje = $data['odjeljenje'];
+        $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindParam(':ime', $ime);
+        $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':titula', $titula);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':telefon', $telefon);
         $stmt->bindParam(':odjeljenje', $odjeljenje);
 
         $stmt->execute();
     }
 
+
     public function updateDoctor($id, $data) {
-        $sql = "UPDATE doktor SET ime = :ime, titula = :titula, email = :email, password = :password, 
-                telefon = :telefon, odjeljenje = :odjeljenje WHERE id = :id";
+        $sql = "UPDATE doktor_info SET user_id = :user_id, titula = :titula, odjeljenje = :odjeljenje 
+              WHERE user_id = :id";
         
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
 
-        $ime = $data['ime'];
-        $titula = $data['titula'];
-        $email = $data['email'];
-        $password = $data['password'];
-        $telefon = $data['telefon'];
-        $odjeljenje = $data['odjeljenje'];
+        $user_id = $data->user_id;
+        $titula = $data->titula;
+        $odjeljenje = $data->odjeljenje;
 
-        $stmt->bindParam(':ime', $ime);
+        $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':titula', $titula);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':telefon', $telefon);
         $stmt->bindParam(':odjeljenje', $odjeljenje);
+
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         $stmt->execute();
     }
 
     public function deleteDoctor($id) {
-        $sql = "DELETE FROM doktor WHERE id = :id";
+        $sql = "DELETE FROM doktor_info WHERE user_id = :id";
         
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
         return $stmt->execute();
@@ -98,5 +77,3 @@ class DoctorDao extends ProjectDao {
         return $this->conn;
     }
 }
-
-?>

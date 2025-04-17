@@ -1,13 +1,17 @@
 <?php
+namespace App\services;
 
-require_once '../dao/PacijentDao.php';
+use App\dao\PacijentDao;
 
-class PacijentService extends ProjectService {
+
+class pacijentService {
+
+    private $dao;
     
     public function __construct(){
 
-        $dao = new PacijentDao();
-        parent::__construct($dao);
+        $this->dao = new PacijentDao();
+
     }
 
     public function getAllPatients(){
@@ -20,9 +24,9 @@ class PacijentService extends ProjectService {
         return $this->dao->getPatientByID($id);
     }
 
-    public function addPatient($data){
+    public function addPatient($pacijent_id,$JMBG,$grad,$tezina,$visina,$datumRodenja,$nazivOsiguranika){
 
-        return $this->dao->addPatient($data);
+        $this->dao->addPatient($pacijent_id,$JMBG,$grad,$tezina,$visina,$datumRodenja,$nazivOsiguranika);
     }
 
     public function updatePatient($id, $data){
@@ -35,4 +39,3 @@ class PacijentService extends ProjectService {
         return $this->dao->deletePatient($id);
     }
 }
-?>

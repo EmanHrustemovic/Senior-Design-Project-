@@ -1,19 +1,21 @@
 <?php
 
-require_once '../dao/TerapijaDao.php';
+namespace App\services;
 
+use App\dao\TerapijaDao;
 
-class TerapijaServices extends ProjectService{
+class TerapijaServices {
+
+    private $dao;
 
     public function __construct(){
 
-        $dao = new PacijentDao();
-        parent::__construct($dao);
+        $this -> dao = new TerapijaDao();
     }
 
     public function getAllTherapy(){
 
-        return $this->dao->getAllTherapy();
+        $this->dao->getAllTherapy();
     }
 
     public function getTherapyByID($id){
@@ -21,9 +23,9 @@ class TerapijaServices extends ProjectService{
         return $this->dao->getTherapyByID($id);
     }
 
-    public function addTherapy($data){
+    public function addTherapy($id,$terapija_id,$vrsta,$doza_i_uputa,$trajanje,$kontrola,$doktor_id, $pregledi_id){
 
-        return $this->dao->addTherapy($data);
+        $this->dao->addTherapy($id,$terapija_id,$vrsta,$doza_i_uputa,$trajanje,$kontrola,$doktor_id, $pregledi_id);
     }
 
     public function updateTherapy($id, $data){
@@ -37,5 +39,3 @@ class TerapijaServices extends ProjectService{
 
     }
 }
-
-?>

@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . '/SmsRoutes.php';
-
-
 Flight::route('GET /connection-check' ,function(){
     
     $projectService = Flight::projectService();

@@ -1,77 +1,92 @@
 <?php
 
-require_once '../config.php';
-require_once __DIR__ . '/ProjectDao.php';
+namespace App\dao;
+use App\dao\ProjectDao;
 
-class PacijentDao extends ProjectDao {
+use PDO;
+
+class KorisnikDao extends ProjectDao {
     private $pdo;
 
     public function __construct() {
         parent::__construct('user');
 
-        try {
-            $servername = 'localhost';
-            $db_name = 'moje_zdravlje';
-            $username = 'root';
-            $password = 'g3c9h.,1?0';
-
-            $this->pdo = new PDO("mysql:host=$servername;dbname={$db_name}", $username, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-
-        } catch (PDOException $e) {
-            die("Connection failed: " . $e->getMessage());
-        }
+    }
+    
+    public function create($user){
+        $db = $this->connect();
+        $stmt = $db->prepare("INSERT INTO user (email, password_hash, otp_secret) VALUES (?, ?, ?)");
+        $stmt->execute([
+            $user['email'],
+            AuthService::hashPassword($user['password']),
+            $user['otp_secret']
+        ]);
     }
 
     public function getAllUsers() {
-        $stmt = $this->pdo->prepare("SELECT * FROM user");
+        $stmt = $this->connection->prepare("SELECT * FROM user");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
     public function getUserByID($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM user WHERE JMBG = :id");
+        $stmt = $this->connection->prepare("SELECT * FROM user WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function addUser($data) {
-        $sql = "INSERT INTO user (JMBG, punoIme, prezime, email, telefon)
-                VALUES (:JMBG, :punoIme, :prezime, :email, :telefon)";
+    public function addUser($ime,$prezime,$email,$telefon,$password,$uloga) {
 
-        $stmt = $this->pdo->prepare($sql);
+         $sql = "INSERT INTO user (ime, prezime, email, telefon,password,uloga)
+                VALUES ( :ime, :prezime, :email, :telefon,:password,:uloga)";
 
-        $stmt->bindParam(':JMBG', $data['JMBG']);
-        $stmt->bindParam(':punoIme', $data['punoIme']);
-        $stmt->bindParam(':prezime', $data['prezime']);
-        $stmt->bindParam(':email', $data['email']);
-        $stmt->bindParam(':telefon', $data['telefon']);
+        $stmt = $this->connection->prepare($sql);
+
+        //$stmt->bindParam(':id', $id);
+        $stmt->bindParam(':ime', $ime);
+        $stmt->bindParam(':prezime', $prezime);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':telefon', $telefon);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':uloga', $uloga);
 
         $stmt->execute();
 
-        return $this->getUserByID($data['JMBG']);
     }
 
     public function updateUser($id, $data) {
-        $sql = "UPDATE user SET punoIme= :punoIme, prezime= :prezime, email= :email, telefon= :telefon WHERE JMBG = :JMBG";
+        $sql = "UPDATE user SET  ime = :ime, prezime = :prezime, email = :email,
+                 telefon = :telefon , password = :password,uloga = :uloga WHERE id = :id";
+
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->bindParam(':JMBG', $id);
-        $stmt->bindParam(':punoIme', $data['punoIme']);
-        $stmt->bindParam(':prezime', $data['prezime']);
-        $stmt->bindParam(':email', $data['email']);
-        $stmt->bindParam(':telefon', $data['telefon']);
+        //$id = $data -> id;
+        $ime = $data -> ime;
+        $prezime = $data -> prezime;
+        $email = $data -> email;
+        $telefon = $data -> telefon;
+        $password = $data -> password;
+        $uloga = $data -> uloga;
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':ime', $ime);
+        $stmt->bindParam(':prezime', $prezime);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':telefon', $telefon);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':uloga', $uloga);
+
 
         $stmt->execute();
-
-        return $this->getUserByID($id);
     }
 
     public function deleteUser($id) {
-        $sql = "DELETE FROM user WHERE JMBG = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $sql = "DELETE FROM user WHERE id = :id";
+
+        $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
         return $stmt->execute();
     }
 }

@@ -1,64 +1,83 @@
 <?php
-namespace App\dao;
 
-//require_once '../config.php';
-//require_once __DIR__ . '/ProjectDao.class.php';
+namespace App\dao;
+use App\dao\ProjectDao;
+
+use PDO;
 
 class PacijentDao extends ProjectDao {
 
     private $pdo;
+    private $conn;
 
     public function __construct() {
         parent::__construct('pacijent_info');
-
-//        try {
-//            $servername = 'localhost';
-//            $db_name = 'moje_zdravlje';
-//            $username = 'root';
-//            $password = 'g3c9h.,1?0';
-//
-//            $this->pdo = new PDO("mysql:host=$servername;dbname=$db_name", $username, $password);
-//            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//        } catch (PDOException $e) {
-//            die("Connection failed: " . $e->getMessage());
-//        }
     }
 
     public function getAllPatients() {
-        $stmt = $this->pdo->prepare("SELECT * FROM pacijent");
+        $stmt = $this->connection->prepare("SELECT * FROM pacijent_info");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
     public function getPatientByID($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM pacijent WHERE JMBG = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt = $this->connection->prepare("SELECT * FROM pacijent_info WHERE pacijent_id = :id");
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch();
     }
 
-    public function addPatient($data) {
-        $sql = 'INSERT INTO pacijent (JMBG, punoIme, email, password, grad, težina, visina, datumRođenja, nazivOsiguranika) VALUES (:JMBG, :punoIme, :email, :password, :grad, :težina, :visina, :datumRođenja, :nazivOsiguranika)';
+    public function addPatient($pacijent_id,$JMBG,$grad,$tezina,$visina,$datumRodenja,$nazivOsiguranika) {
+        $sql = 'INSERT INTO pacijent_info (pacijent_id,JMBG,grad,tezina,visina,datumRodenja,nazivOsiguranika) 
+            VALUES (:pacijent_id,:JMBG,:grad,:tezina,:visina,:datumRodenja,:nazivOsiguranika)';
 
         $stmt = $this->connection->prepare($sql);
-        return $stmt->execute($data);
+
+        $stmt->bindParam(':pacijent_id', $pacijent_id);
+        $stmt->bindParam(':JMBG', $JMBG);
+        $stmt->bindParam(':grad', $grad);
+        $stmt->bindParam(':tezina', $tezina);
+        $stmt->bindParam(':visina', $visina);
+        $stmt->bindParam(':datumRodenja', $datumRodenja);
+        $stmt->bindParam(':nazivOsiguranika', $nazivOsiguranika);
+
+        $stmt->execute();
     }
 
     public function updatePatient($id, $data) {
-        $sql = 'UPDATE pacijent SET punoIme = :punoIme, email = :email, password = :password, grad = :grad, 
-                težina = :težina, visina = :visina, datumRođenja = :datumRođenja, nazivOsiguranika = :nazivOsiguranika 
-                WHERE JMBG = :JMBG';
+        $sql = 'UPDATE pacijent_info SET pacijent_id = :pacijent_id, JMBG = :JMBG, grad = :grad, 
+                tezina = :tezina, visina = :visina, datumRodenja = :datumRodenja, nazivOsiguranika = :nazivOsiguranika 
+                WHERE pacijent_id= :pacijent_id';
 
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute($data);
+        $stmt = $this->connection->prepare($sql);
+
+        $pacijent_id = $data->pacijent_id;
+        $JMBG = $data->JMBG;
+        $grad = $data->grad;
+        $tezina = $data -> tezina;
+        $visina = $data -> visina;
+        $datumRodenja = $data -> datumRodenja;
+        $nazivOsiguranika = $data -> nazivOsiguranika;
+
+        $stmt->bindParam(':pacijent_id', $pacijent_id);
+        $stmt->bindParam(':JMBG', $JMBG);
+        $stmt->bindParam(':grad', $grad);
+        $stmt->bindParam(':visina', $visina);
+        $stmt->bindParam(':tezina', $tezina);
+        $stmt->bindParam(':datumRodenja', $datumRodenja);
+        $stmt->bindParam(':nazivOsiguranika',$nazivOsiguranika);
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
     }
 
     public function deletePatient($id) {
-        $sql = "DELETE FROM pacijent WHERE JMBG = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $sql = "DELETE FROM pacijent_info WHERE pacijent_id = :id";
+
+        $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_STR);
         return $stmt->execute();
     }
 }
 
-?>

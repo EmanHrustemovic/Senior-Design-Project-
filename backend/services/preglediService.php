@@ -1,18 +1,21 @@
 <?php
 
-require_once '../dao/PreglediDao.php';
+namespace App\services;
 
-class PreglediService extends ProjectService{
+use App\dao\PreglediDao;
+
+class PreglediService {
+
+    private $dao;
 
     public function __construct(){
 
-        $dao = new PacijentDao();
-        parent::__construct($dao);
+        $this -> dao = new PreglediDao();
     }
 
     public function getAllChecks(){
         
-        return $this->dao->getAllChecks();
+        $this->dao->getAllChecks();
     }
 
     public function preglediPoID($id){
@@ -20,9 +23,9 @@ class PreglediService extends ProjectService{
         return $this->dao->preglediPoID($id);
     }
 
-    public function dodajPregled($data){
+    public function dodajPregled($id,$nazivPregleda,$datum_vrijeme,$status,$opis,$rezultati,$odjeljenje_id,$doktor_id,$preporuka){
 
-        return $this->dao->dodajPregled($data);
+        $this->dao->dodajPregled($id,$nazivPregleda,$datum_vrijeme,$status,$opis,$rezultati,$odjeljenje_id,$doktor_id,$preporuka);
     }
 
     public function izmjeniPregled($id, $data){
@@ -30,8 +33,8 @@ class PreglediService extends ProjectService{
         return $this->dao->izmjeniPregled($id, $data);
     }
 
-    public function obrišiPregled($id){
+    public function obrisiPregled($id){
 
-        return $this->dao->obrišiPregled($id);
+        return $this->dao->obrisiPregled($id);
     }
 }

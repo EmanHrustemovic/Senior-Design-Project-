@@ -1,67 +1,93 @@
 <?php
+
 namespace App\dao;
+use App\dao\ProjectDao;
 
-//require_once '../config.php';
-require_once __DIR__ . '/ProjectDao.php';
-
+use PDO;
 
 class ZdravstveniKartonDao extends ProjectDao {
+
+    private $conn;
     private $pdo;
 
     public function __construct() {
-        parent::__construct('zdravstveniKarton');
+        parent::__construct('zdravstvenikarton');
 
-//        try {
-//            $this->pdo = new \PDO("mysql:host=localhost;dbname=moje_zdravlje", "root", "g3c9h.,1?0");
-//            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//        } catch (PDOException $e) {
-//            die("Connection failed: " . $e->getMessage());
-//        }
-    }
-
-
-    public function dodajKarton($data) {
-        $sql = "INSERT INTO zdravstveniKarton (sifraBolesti, nazivBolesti, dijagnoza, terapija,  pregledi_id, doktor_id) VALUES (:sifraBolesti, :nazivBolesti, :dijagnoza, :terapija,  :pregledi_id, :doktor_id)";
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->execute($data);
-        return (int)$this->connection->lastInsertId();
     }
 
     public function izlistajKarton() {
-        $stmt = $this->pdo->prepare("SELECT * FROM zdravstveniKarton");
+        $stmt = $this->connection->prepare("SELECT * FROM zdravstvenikarton");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
     public function kartoniPoID($id) {
-        $stmt = $this->connection->prepare("SELECT * FROM zdravstveniKarton WHERE sifraBolesti = :id");
-        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+
+        $stmt = $this->connection->prepare("SELECT * FROM zdravstvenikarton WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+
         $stmt->execute();
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $stmt->fetch();
     }
 
+    public function dodajKarton($id,$sifraBolesti,$nazivBolesti,$dijagnoza,$terapija,$pacijent_id,$pregledi_id,$doktor_id){
+        $sql = 'INSERT INTO zdravstvenikarton(id,sifraBolesti,nazivBolesti,dijagnoza,terapija,pacijent_id,pregledi_id,doktor_id)
+                VALUES(:id,:sifraBolesti,:nazivBolesti,:dijagnoza,:terapija,:pacijent_id,:pregledi_id,:doktor_id)';
 
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':sifraBolesti', $sifraBolesti);
+        $stmt->bindParam(':nazivBolesti', $nazivBolesti);
+        $stmt->bindParam(':dijagnoza', $dijagnoza);
+        $stmt->bindParam(':terapija', $terapija);
+        $stmt->bindParam(':pacijent_id', $pacijent_id);
+        $stmt->bindParam(':pregledi_id', $pregledi_id);
+        $stmt->bindParam(':doktor_id', $doktor_id_id);
+
+        $stmt->execute();
+    }
 
     public function izmjeniKarton($id, $data) {
-        $sql = 'UPDATE zdravstveniKarton SET 
-                    nazivBolesti = :nazivBolesti, 
-                    dijagnoza = :dijagnoza, 
-                    terapija = :terapija, 
-                    JMBG = :JMBG, 
-                    pregledi_id = :pregledi_id, 
-                    doktor_id = :doktor_id
-                WHERE sifraBolesti = :sifraBolesti';
+        $sql = 'UPDATE zdravstvenikarton SET id = :id,sifraBolesti = :sifraBolesti,nazivBolesti = :nazivBolesti,
+                             dijagnoza = :dijagnoza, terapija = :terapija, pacijent_id = :pacijent_id, pregledi_id = :pregledi_id, doktor_id = :doktor_id
+                WHERE id = :id';
         
         $stmt = $this->connection->prepare($sql);
-        return $stmt->execute($data);
+
+        $id = $data->id;
+        $sifraBolesti = $data ->sifraBolesti;
+        $nazivBolesti = $data -> nazivBolesti;
+        $dijagnoza = $data -> dijagnoza;
+        $terapija = $data -> terapija;
+        $pacijent_id = $data -> pacijent_id;
+        $pregledi_id = $data -> pregledi_id;
+        $doktor_id = $data -> doktor_id;
+
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':sifraBolesti', $sifraBolesti);
+        $stmt->bindParam(':nazivBolesti', $nazivBolesti);
+        $stmt->bindParam(':dijagnoza', $dijagnoza);
+        $stmt->bindParam(':terapija', $terapija);
+        $stmt->bindParam(':pacijent_id', $pacijent_id);
+        $stmt->bindParam(':pregledi_id', $pregledi_id);
+        $stmt->bindParam(':doktor_id', $doktor_id_id);
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
     }
 
-    public function obrišiKarton($id) {
-        $sql = "DELETE FROM zdravstveniKarton WHERE sifraBolesti = :id";
+    public function obrisiKarton($id) {
+        $sql = "DELETE FROM zdravstvenikarton WHERE id = :id";
+
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindParam(":id", $id, \PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id,PDO::PARAM_INT);
+
         return $stmt->execute();
     }
+    public function getConn() {
+        return $this->conn;
+    }
 }
-?>
+

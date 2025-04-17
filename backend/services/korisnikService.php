@@ -1,13 +1,18 @@
 <?php
 
-require_once '../dao/KorisnikDao.php';
+namespace App\services;
+//require_once '../dao/KorisnikDao.php';
 
-class KorisnikService extends ProjectService{
+use App\dao\KorisnikDao;
+
+class KorisnikService {
+
+    private $dao;
 
     public function __construct(){
 
-        $dao = new KorisnikDao();
-        parent::__construct($dao);
+        $this -> dao = new KorisnikDao();
+        //parent::__construct($dao);
     }
 
     public function getAllUsers(){
@@ -20,9 +25,9 @@ class KorisnikService extends ProjectService{
         return $this->dao->getUserByID($id);
     }
 
-    public function addUser($data){
+    public function addUser($id,$ime,$prezime,$email,$telefon,$password,$uloga){
 
-        return $this->dao->addUser($data);
+        return $this->dao->addUser($id,$ime,$prezime,$email,$telefon,$password,$uloga);;
     }
 
     public function updateUser($id, $data){
@@ -35,4 +40,3 @@ class KorisnikService extends ProjectService{
         return $this->dao->deleteUser($id);
     }
 }
-?>

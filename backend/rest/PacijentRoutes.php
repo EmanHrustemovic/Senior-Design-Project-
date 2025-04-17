@@ -1,5 +1,8 @@
 <?php
 
+use App\dao\PacijentDao;
+use App\services\pacijentService;
+
 
 Flight::route('GET /connection-check' ,function(){
     
@@ -10,45 +13,75 @@ Flight::route('GET /connection-check' ,function(){
 });
 
 
-Flight::route('GET /pacijent',function(){
+Flight::route('GET /patient',function(){
 
-    $dao = new ProjectDao();
+    $dao = new PacijentDao();
     $patients = $dao -> getAllPatients();
     Flight::json($patients);
 
+    //RADI ALI POKAZUJE H1 NESTA
+
 });
 
-Flight::route('GET /pacijent/@id' , function($id){
+Flight::route('GET /patient/@id' , function($id){
 
-    $dao = new ProjectDao();
+    $dao = new PacijentDao();
     $patient = $dao -> getPatientByID($id);
     Flight::json($patient);
 
+    //RADI ALI POKAZUJE H1 NESTA
 });
 
-Flight::route('POST /pacijent',function($data){
+Flight::route('POST /patient/add',function(){
+    $data = Flight::request()->data;
 
-    $dao = new ProjectDao();
-    $new_patient = $dao -> addPatient($data);
+    $pacijent_id =$data -> pacijent_id;
+    $JMBG = $data -> JMBG;
+    $grad = $data -> grad;
+    $tezina = $data -> tezina;
+    $visina = $data -> visina;
+    $datumRodenja = $data -> datumRodenja;
+    $nazivOsiguranika = $data -> nazivOsiguranika;
+
+
+
+    $service = new pacijentService();
+    $new_patient = $service->addPatient($pacijent_id,$JMBG,$grad,$tezina,$visina,$datumRodenja,$nazivOsiguranika);
     Flight::json($new_patient);
 
+    //RADI UREDNO ( ALI VRACA H1 )
+
 });
 
-Flight::route('PUT /pacijent',function(){
+Flight::route('PUT /patient/@id',function($id){
 
-    $dao = new ProjectDao();
-    $change_patient = $dao -> updatePatient($id, $data);
+    $data = Flight::request()->data;
+
+    $service = new pacijentService();
+    $change_patient = $service -> updatePatient($id, $data);
+
     Flight::json($change_patient);
 
+    //RADI UREDNO ( ALI VRACA H1 )
+
 });
 
-Flight::route('DELETE /pacijent/@id',function($id){
+Flight::route('DELETE /patient/@id',function($id){
 
-    $dao = new ProjectDao();
-    $remove_patient = $dao -> deletePatient($id);
+    $message = "";
+
+    $service = new pacijentService();
+
+    $remove_patient = $service -> deletePatient($id);
     Flight::json($remove_patient);
 
+    if ($remove_patient) {
+        $message =  "Pacijent je uspješno izbrisan iz baze podataka .";
+    } else {
+        $message = "Pacijent nije uspješno izbrisan iz baze podataka.";
+    }
+    print($message);
+
+    //RADI , NE BACA PORUKU ALI BACA H1
+
 });
-
-
-?>

@@ -1,50 +1,77 @@
 <?php
 
+use App\dao\DoctorDao;
+use App\services\DoctorService;
+
+
 
 Flight::route('GET /connection-check' ,function(){
-    
+    /*
     $projectService = Flight::projectService();
     
     echo $projectService -> connStatus;
-
+    */
 });
 
 Flight::route('GET /doctors' , function(){
 
-    $dao = new ProjectDao();
-    $all_doctors = $dao -> getAllDoctors();
+    $dao = new DoctorDao();
+    $all_doctors = $dao->getAllDoctors();
+
     Flight::json($all_doctors);
 
+    //RADI
 });
 
 Flight::route('GET /doctors/@id',function($id){
     
-    $dao = new ProjectDao();
-    $doctors_by_id = $dao -> getByDocID($id);
+    $dao = new DoctorDao();
+    $doctors_by_id = $dao->getByDocID($id);
+
     Flight::json($doctors_by_id);
+
+    //RADI
 });
 
-Flight::route('POST /doctors/add',function($data){
+Flight::route('POST /doctors/add', function () {
+    $data = Flight::request()->data;
 
-    $dao = new ProjectDao();
-    $new_doctor = $dao -> addDoctor($data);
-    Flight::json($new_doctor);
+    $user_id = $data->user_id;
+    $titula = $data->titula;
+    $odjeljenje = $data->odjeljenje;
 
+    $service = new DoctorService();
+    $service->addDoctor($user_id, $titula, $odjeljenje);
+
+    Flight::json(['message' => 'Doktor uspješno dodat.']);
+
+    //Radi
 });
 
-Flight::route('',function($id, $data){
 
-    $dao = new ProjectDao();
-    $updated_doctor = $dao -> updateDoctor($id, $data);
+Flight::route('PUT /doctors/@id',function($id){
+    $data = Flight::request()->data;
+
+    $service = new DoctorService();
+    $updated_doctor = $service-> updateDoctor($id,$data);
+
     Flight::json($updated_doctor);
-
+//RADI
 });
 
-Flight::route('DELETE /' , function($id){
-    $dao = new ProjectDao();
-    $delete_doctor = $dao -> deleteDoctor($id);
-    Flight::json($delete_doctor);
+Flight::route('DELETE /doctors/@id' , function($id){
 
+    $message = "";
+
+    $service = new DoctorService();
+
+    $delete_doctor = $service-> deleteDoctor($id);
+
+    if ($delete_doctor) {
+        $message =  "Doktor je uspješno izbrisan iz baze podataka .";
+    } else {
+        $message = "Doktor nije uspješno izbrisan iz baze podataka.";
+    }
+    print($message);
+//RADI
 });
-
-?>

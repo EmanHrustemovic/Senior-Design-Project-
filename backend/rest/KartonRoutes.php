@@ -1,5 +1,9 @@
 <?php
 
+use App\dao\ZdravstveniKartonDao;
+use App\services\kartonServices;
+use App\services\zdravstveniKartonService;
+
 
 Flight::route('GET /connection-check' ,function(){
     
@@ -9,43 +13,66 @@ Flight::route('GET /connection-check' ,function(){
 
 });
 
-Flight::route('GET /zdravstveniKarton',function(){
+Flight::route('GET /cards', function(){
 
-    $dao = new ProjectDao();
-    $card = $dao -> izlistajKarton();
+    $dao = new ZdravstveniKartonDao();
+    $card = $dao->izlistajKarton();
+
     Flight::json($card);
 
+//RADI , ALI DAJE H1 I NE DAJE SVE PARAMETRE
 });
 
-Flight::route('GET /zdravstveniKarton/@id',function($id){
+Flight::route('GET /cards/@id',function($id){
 
-    $dao = new ProjectDao();
-    $card_by_id = $dao -> kartoniPoID($id);
+    $dao = new ZdravstveniKartonDao();
+
+    $card_by_id = $dao->kartoniPoID($id);
     Flight::json($card_by_id);
 
+    //RADI , ALI DAJE H1 I NE DAJE SVE PARAMETRE
 });
 
-Flight::route('POST /zdravstveniKarton', function($data){
+Flight::route('POST /cards/add', function(){
 
-    $dao = new ProjectDao();
-    $novi_karton = $dao -> dodajKarton($data);
+    $data = Flight::request()->data;
+
+    $id = $data->id;
+    $sifraBolesti = $data->sifraBolesti;
+    $nazivBolesti = $data->nazivBolesti;
+    $dijagnoza = $data -> dijagnoza;
+    $terapija = $data -> terapija;
+    $pacijent_id = $data -> pacijent_id;
+    $pregledi_id = $data -> pregledi_id;
+    $doktor_id = $data -> doktor_id;
+
+    $service = new zdravstveniKartonService();
+
+    $novi_karton = $service->dodajKarton($id,$sifraBolesti,$nazivBolesti,$dijagnoza,$terapija,$pacijent_id,$pregledi_id,$doktor_id);
     Flight::json($novi_karton);
+
+    Flight::json(['message' => 'Novi karton je uspješno dodat.']);
+
+    //NE RADI
 });
 
-Flight::route('PUT /zdravstveniKarton/@id',function($id, $data){
+Flight::route('PUT /cards/@id',function($id){
 
-    $dao = new ProjectDao();
-    $izmjeni_karton = $dao -> izmjeniKarton($id, $data);
+    $data = Flight::request()->data;
+
+    $service = new zdravstveniKartonService();
+    $izmjeni_karton = $service -> izmjeniKarton($id,$data);
+
     Flight::json($izmjeni_karton);
-
+//NE RADI
 });
 
-Flight::route('DELETE /zdravstveniKarton/@id',function($id){
+Flight::route('DELETE /cards/@id',function($id){
 
-    $dao = new ProjectDao();
-    $ukloni_karton = $dao -> obrišiKarton($id);
+    $service = new zdravstveniKartonService();
+
+    $ukloni_karton = $service -> obrisiKarton($id);
     Flight::json($ukloni_karton);
-
+//NE RADI
 });
 
-?>
