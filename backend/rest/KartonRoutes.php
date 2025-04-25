@@ -1,7 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../dao/ZdravstveniKartonDao.php';
+require_once __DIR__ . '/../services/zdravstveniKartonService.php';
+
 use App\dao\ZdravstveniKartonDao;
-use App\services\kartonServices;
 use App\services\zdravstveniKartonService;
 
 
@@ -19,8 +21,7 @@ Flight::route('GET /cards', function(){
     $card = $dao->izlistajKarton();
 
     Flight::json($card);
-
-//RADI , ALI DAJE H1 I NE DAJE SVE PARAMETRE
+    //RADI 
 });
 
 Flight::route('GET /cards/@id',function($id){
@@ -30,7 +31,7 @@ Flight::route('GET /cards/@id',function($id){
     $card_by_id = $dao->kartoniPoID($id);
     Flight::json($card_by_id);
 
-    //RADI , ALI DAJE H1 I NE DAJE SVE PARAMETRE
+    //RADI 
 });
 
 Flight::route('POST /cards/add', function(){
@@ -53,7 +54,7 @@ Flight::route('POST /cards/add', function(){
 
     Flight::json(['message' => 'Novi karton je uspješno dodat.']);
 
-    //NE RADI
+    // RADI
 });
 
 Flight::route('PUT /cards/@id',function($id){
@@ -64,7 +65,7 @@ Flight::route('PUT /cards/@id',function($id){
     $izmjeni_karton = $service -> izmjeniKarton($id,$data);
 
     Flight::json($izmjeni_karton);
-//NE RADI
+    //RADI
 });
 
 Flight::route('DELETE /cards/@id',function($id){
@@ -73,6 +74,6 @@ Flight::route('DELETE /cards/@id',function($id){
 
     $ukloni_karton = $service -> obrisiKarton($id);
     Flight::json($ukloni_karton);
-//NE RADI
+    // NE RADI
 });
 

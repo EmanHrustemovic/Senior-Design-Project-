@@ -30,7 +30,7 @@ class TerapijaServices {
 
     public function updateTherapy($id, $data){
 
-        return $this->updateTherapy($id,$data);
+        return $this->dao->updateTherapy($id,$data);
     }
 
     public function deleteTherapy($id){

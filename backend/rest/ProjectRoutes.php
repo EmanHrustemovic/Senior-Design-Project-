@@ -23,7 +23,5 @@ Flight::route('GET /test/doctors', function() {
 
 
 
-
-
 Flight::start();
 ?>

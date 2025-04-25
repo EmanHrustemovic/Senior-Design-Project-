@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . '/../dao/PacijentDao.php';
+require_once __DIR__ . '/../services/pacijentService.php';
+
 use App\dao\PacijentDao;
 use App\services\pacijentService;
 
@@ -19,7 +22,7 @@ Flight::route('GET /patient',function(){
     $patients = $dao -> getAllPatients();
     Flight::json($patients);
 
-    //RADI ALI POKAZUJE H1 NESTA
+    //RADI 
 
 });
 
@@ -29,7 +32,7 @@ Flight::route('GET /patient/@id' , function($id){
     $patient = $dao -> getPatientByID($id);
     Flight::json($patient);
 
-    //RADI ALI POKAZUJE H1 NESTA
+    //RADI 
 });
 
 Flight::route('POST /patient/add',function(){
@@ -43,14 +46,11 @@ Flight::route('POST /patient/add',function(){
     $datumRodenja = $data -> datumRodenja;
     $nazivOsiguranika = $data -> nazivOsiguranika;
 
-
-
     $service = new pacijentService();
     $new_patient = $service->addPatient($pacijent_id,$JMBG,$grad,$tezina,$visina,$datumRodenja,$nazivOsiguranika);
     Flight::json($new_patient);
 
-    //RADI UREDNO ( ALI VRACA H1 )
-
+    //RADI UREDNO 
 });
 
 Flight::route('PUT /patient/@id',function($id){
@@ -62,7 +62,7 @@ Flight::route('PUT /patient/@id',function($id){
 
     Flight::json($change_patient);
 
-    //RADI UREDNO ( ALI VRACA H1 )
+    //RADI UREDNO 
 
 });
 
@@ -82,6 +82,5 @@ Flight::route('DELETE /patient/@id',function($id){
     }
     print($message);
 
-    //RADI , NE BACA PORUKU ALI BACA H1
-
+    //RADI 
 });

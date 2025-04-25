@@ -1,7 +1,11 @@
 <?php
 
+require_once __DIR__ . '/../dao/PreglediDao.php';
+require_once __DIR__ . '/../services/preglediService.php';
+
 use App\dao\PreglediDao;
 use App\services\preglediService;
+
 
 
 Flight::route('GET /connection-check' ,function(){
@@ -18,7 +22,7 @@ Flight::route('GET /checks',function(){
 
     $checks = $dao->getAllChecks();
     Flight::json($checks);
-    //RADI , VRACA H1
+    //RADI 
 });
 
 Flight::route('GET /checks/@id',function($id){
@@ -27,7 +31,7 @@ Flight::route('GET /checks/@id',function($id){
     $checks_per_id = $dao ->preglediPoID($id);
     Flight::json($checks_per_id);
 
-    //RADI , VRACA H1
+    //RADI 
 });
 
 Flight::route('POST /checks/add',function(){
@@ -52,16 +56,17 @@ Flight::route('POST /checks/add',function(){
     //RADI
 });
 
-Flight::route('POST /checks/@id',function($id,$data){
+Flight::route('PUT /checks/@id', function($id){
     $data = Flight::request()->data;
 
     $service = new preglediService();
-    $update_check = $service ->izmjeniPregled($id, $data);
+    $service->izmjeniPregled($id, $data);
 
     Flight::json(["message" => "Pregled uspješno ažuriran"]);
 
-    //NE RADI
+    //RADI
 });
+
 
 
 Flight::route('DELETE /checks/@id',function($id){

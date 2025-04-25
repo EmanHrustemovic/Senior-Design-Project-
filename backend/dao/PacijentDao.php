@@ -45,32 +45,28 @@ class PacijentDao extends ProjectDao {
     }
 
     public function updatePatient($id, $data) {
-        $sql = 'UPDATE pacijent_info SET pacijent_id = :pacijent_id, JMBG = :JMBG, grad = :grad, 
-                tezina = :tezina, visina = :visina, datumRodenja = :datumRodenja, nazivOsiguranika = :nazivOsiguranika 
-                WHERE pacijent_id= :pacijent_id';
-
+        $sql = 'UPDATE pacijent_info SET 
+                    JMBG = :JMBG, 
+                    grad = :grad, 
+                    tezina = :tezina, 
+                    visina = :visina, 
+                    datumRodenja = :datumRodenja, 
+                    nazivOsiguranika = :nazivOsiguranika 
+                WHERE pacijent_id = :id';
+    
         $stmt = $this->connection->prepare($sql);
-
-        $pacijent_id = $data->pacijent_id;
-        $JMBG = $data->JMBG;
-        $grad = $data->grad;
-        $tezina = $data -> tezina;
-        $visina = $data -> visina;
-        $datumRodenja = $data -> datumRodenja;
-        $nazivOsiguranika = $data -> nazivOsiguranika;
-
-        $stmt->bindParam(':pacijent_id', $pacijent_id);
-        $stmt->bindParam(':JMBG', $JMBG);
-        $stmt->bindParam(':grad', $grad);
-        $stmt->bindParam(':visina', $visina);
-        $stmt->bindParam(':tezina', $tezina);
-        $stmt->bindParam(':datumRodenja', $datumRodenja);
-        $stmt->bindParam(':nazivOsiguranika',$nazivOsiguranika);
-
+    
+        $stmt->bindParam(':JMBG', $data->JMBG);
+        $stmt->bindParam(':grad', $data->grad);
+        $stmt->bindParam(':tezina', $data->tezina);
+        $stmt->bindParam(':visina', $data->visina);
+        $stmt->bindParam(':datumRodenja', $data->datumRodenja);
+        $stmt->bindParam(':nazivOsiguranika', $data->nazivOsiguranika);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-        $stmt->execute();
+    
+        $stmt->execute();    
     }
+    
 
     public function deletePatient($id) {
         $sql = "DELETE FROM pacijent_info WHERE pacijent_id = :id";

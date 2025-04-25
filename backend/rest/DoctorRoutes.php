@@ -1,17 +1,12 @@
 <?php
 
+
+require_once __DIR__ . '/../dao/DoctorDao.php';
+require_once __DIR__ . '/../services/DoctorService.php';
+
 use App\dao\DoctorDao;
 use App\services\DoctorService;
 
-
-
-Flight::route('GET /connection-check' ,function(){
-    /*
-    $projectService = Flight::projectService();
-    
-    echo $projectService -> connStatus;
-    */
-});
 
 Flight::route('GET /doctors' , function(){
 

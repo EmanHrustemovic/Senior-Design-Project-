@@ -1,15 +1,19 @@
 <?php
 
 
+require_once __DIR__ . '/../dao/LaboratorijaDao.php';
+require_once __DIR__ . '/../services/laboratorijaService.php';
+
 use App\dao\LaboratorijaDao;
 use App\services\laboratorijaService;
 
-
 Flight::route('GET /connection-check' ,function(){
     
+    /*
     $projectService = Flight::projectService();
     
     echo $projectService -> connStatus;
+    */
 
 });
 
@@ -54,7 +58,7 @@ Flight::route('POST /labs/add', function() {
 Flight::route('PUT /labs/@id', function($id) {
 
     $data = Flight::request()->data;
-    var_dump(Flight::request()->data);
+    //var_dump(Flight::request()->data);
 
     $service = new laboratorijaService();
     $update_lab = $service->updateLaboratory($id, $data);
@@ -84,4 +88,3 @@ Flight::route('DELETE /labs/@id',function($id){
 
     //RADI
 });
-

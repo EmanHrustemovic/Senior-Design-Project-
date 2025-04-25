@@ -10,7 +10,7 @@ class zdravstveniKartonService {
 
     public function __construct(){
 
-        $this -> dao = new ZdravstveniKartontDao();
+        $this -> dao = new ZdravstveniKartonDao();
 
     }
 
@@ -36,6 +36,6 @@ class zdravstveniKartonService {
 
     public function obrisiKarton($id){
 
-        return $this->dao->obrisiKaton($id);
+        return $this->dao->obrisiKarton($id);
     }
 }

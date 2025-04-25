@@ -35,8 +35,8 @@ class TerapijaDao extends ProjectDao {
     }
 
     public function addTherapy($id,$terapija_id,$vrsta,$doza_i_uputa,$trajanje,$kontrola,$doktor_id, $pregledi_id){
-        $sql = "INSERT INTO (id,terapija_id,vrsta,doza_i_uputa,trajanje,kontrola,doktor_id, pregledi_id)
-                VALUES (:terapija_id, :vrsta, :doza_i_uputa, :trajanje, :kontrola, :doktor_id, :pregledi_id)";
+        $sql = "INSERT INTO terapija (id,terapija_id,vrsta,doza_i_uputa,trajanje,kontrola,doktor_id, pregledi_id)
+                VALUES (:id,:terapija_id, :vrsta, :doza_i_uputa, :trajanje, :kontrola, :doktor_id, :pregledi_id)";
 
         $stmt = $this->connection->prepare($sql);
 
@@ -53,12 +53,12 @@ class TerapijaDao extends ProjectDao {
     }
 
     public function updateTherapy($id, $data){
-        $sql = "UPDATE  SET id = :id,terapija_id =:terapija_id,vrsta = :vrsta, doza_i_uputa = :doza_i_uputa,trajanje = :trajanje,
+        $sql = "UPDATE terapija SET terapija_id =:terapija_id,vrsta = :vrsta, doza_i_uputa = :doza_i_uputa,trajanje = :trajanje,
                 kontrola = :kontrola,doktor_id = :doktor_id,pregledi_id = :pregledi_id WHERE id = :id";
 
         $stmt = $this->connection->prepare($sql);
 
-        $id = $data -> id;
+        //$id = $data -> id;
         $terapija_id = $data -> terapija_id;
         $vrsta = $data -> vrsta;
         $doza_i_uputa = $data -> doza_i_uputa;
@@ -67,7 +67,7 @@ class TerapijaDao extends ProjectDao {
         $doktor_id = $data -> doktor_id;
         $pregledi_id = $data -> pregledi_id;
 
-        $stmt->bindParam(':id',$id);
+        //$stmt->bindParam(':id',$id);
         $stmt->bindParam(':terapija_id', $terapija_id);
         $stmt->bindParam(':vrsta', $vrsta);
         $stmt->bindParam(':doza_i_uputa', $doza_i_uputa);

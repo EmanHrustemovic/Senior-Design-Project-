@@ -5,6 +5,10 @@ use App\dao\ProjectDao;
 
 use PDO;
 
+require_once __DIR__ . "/../services/config.php";
+require_once __DIR__ . "/ProjectDao.php";
+
+
 class ZdravstveniKartonDao extends ProjectDao {
 
     private $conn;
@@ -16,7 +20,9 @@ class ZdravstveniKartonDao extends ProjectDao {
     }
 
     public function izlistajKarton() {
-        $stmt = $this->connection->prepare("SELECT * FROM zdravstvenikarton");
+        $sql = "SELECT * FROM zdravstvenikarton";
+
+        $stmt = $this->connection->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -86,8 +92,9 @@ class ZdravstveniKartonDao extends ProjectDao {
 
         return $stmt->execute();
     }
+
+
     public function getConn() {
         return $this->conn;
     }
 }
-

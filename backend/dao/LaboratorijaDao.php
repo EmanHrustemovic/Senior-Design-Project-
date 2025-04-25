@@ -78,39 +78,6 @@ class LaboratorijaDao extends ProjectDao {
 
         $stmt->execute();
     }
-    /*
-    public function updateLaboratory($id, $data) {
-        $sql = "UPDATE laboratorija SET 
-            sifraNalaza = :sifraNalaza, 
-            tipNalaza = :tipNalaza,
-            vrsta_uzorka = :vrsta_uzorka,
-            datum_obrade = :datum_obrade,
-            status = :status,
-            pregledi_id = :pregledi_id
-        WHERE id = :id";
-
-        $stmt = $this->connection->prepare($sql);
-
-        // Ispravka: koristi array syntax umjesto objektnog pristupa
-        $sifraNalaza = $data['sifraNalaza'];
-        $tipNalaza = $data['tipNalaza'];
-        $vrsta_uzorka = $data['vrsta_uzorka'];
-        $datum_obrade = $data['datum_obrade'];
-        $status = $data['status'];
-        $pregledi_id = $data['pregledi_id'];
-
-        // Pripremi parametre
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->bindParam(':sifraNalaza', $sifraNalaza);
-        $stmt->bindParam(':tipNalaza', $tipNalaza);
-        $stmt->bindParam(':vrsta_uzorka', $vrsta_uzorka);
-        $stmt->bindParam(':datum_obrade', $datum_obrade);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':pregledi_id', $pregledi_id);
-
-        $stmt->execute();
-    }
-    */
 
     public function deleteLaboratory($id) {
         $sql = "DELETE FROM laboratorija WHERE id = :id";

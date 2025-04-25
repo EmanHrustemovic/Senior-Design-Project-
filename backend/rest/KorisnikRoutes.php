@@ -76,5 +76,3 @@ Flight::route('DELETE /user/@id',function($id){
     //RADI
 
 });
-
-Flight::start();

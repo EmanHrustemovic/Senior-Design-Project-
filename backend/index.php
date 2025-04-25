@@ -9,7 +9,7 @@ require 'rest/PacijentRoutes.php';
 require  'rest/KartonRoutes.php';
 require  'rest/PreglediRoutes.php';
 require  'rest/TerapijaRoutes.php';
-require_once __DIR__ . '/../routes/otpRoutes.php';
+//require_once __DIR__ . '/../routes/otpRoutes.php';
 
 
 // Add a path to the autoloader
@@ -17,12 +17,16 @@ require_once __DIR__ . '/../routes/otpRoutes.php';
 // Set the application path
 //Flight::path(__DIR__ . '/../app');
 //prep app variable
-$app = Flight::app();
+//$app = Flight::app();
 
 
 
 Flight::route('/', function(){
     echo 'hello world!';
+});
+
+Flight::route('/emko', function(){
+    echo 'hello world emkooo!';
 });
 
 

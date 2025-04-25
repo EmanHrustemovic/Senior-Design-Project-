@@ -50,36 +50,25 @@ class PreglediDao extends ProjectDao {
     }
 
     public function izmjeniPregled($id, $data) {
-        $sql = "UPDATE pregledi SET id = :id,nazivPregleda = :nazivPregleda, datum_vrijeme = :datum_vrijeme, status = :status, 
-                    opis = :opis, rezultati = :rezultati, odjeljenje_id = :odjeljenje_id, doktor_id = :doktor_id, preporuka = :preporuka 
-                WHERE id = :id";
-
+        $sql = "UPDATE pregledi SET nazivPregleda = :nazivPregleda, datum_vrijeme = :datum_vrijeme, status = :status, 
+                opis = :opis,rezultati = :rezultati,odjeljenje_id = :odjeljenje_id, doktor_id = :doktor_id, 
+                preporuka = :preporuka WHERE id = :id";
+    
         $stmt = $this->connection->prepare($sql);
-
-        $id = $data->id;
-        $nazivPregleda = $data->nazivPregleda;
-        $datum_vrijeme = $data->datum_vrijeme;
-        $status = $data->status;
-        $opis = $data->opis;
-        $rezultati = $data->rezultati;
-        $odjeljenje_id = $data->odjeljenje_id;
-        $doktor_id = $data->doktor_id;
-        $preporuka = $data->preporuka;
-
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nazivPregleda', $nazivPregleda);
-        $stmt->bindParam(':datum_vrijeme', $datum_vrijeme);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':opis', $opis);
-        $stmt->bindParam(':rezultati', $rezultati);
-        $stmt->bindParam(':odjeljenje_id', $odjeljenje_id);
-        $stmt->bindParam(':doktor_id', $doktor_id);
-        $stmt->bindParam(':preporuka', $preporuka);
-
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
+    
+        $stmt->bindParam(':nazivPregleda', $data->nazivPregleda);
+        $stmt->bindParam(':datum_vrijeme', $data->datum_vrijeme);
+        $stmt->bindParam(':status', $data->status);
+        $stmt->bindParam(':opis', $data->opis);
+        $stmt->bindParam(':rezultati', $data->rezultati);
+        $stmt->bindParam(':odjeljenje_id', $data->odjeljenje_id);
+        $stmt->bindParam(':doktor_id', $data->doktor_id);
+        $stmt->bindParam(':preporuka', $data->preporuka);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT); // Samo ovdje bindamo ID
+    
         $stmt->execute();
     }
+    
 
     public function obrisiPregled($id) {
         $sql = "DELETE FROM pregledi WHERE id = :id";
