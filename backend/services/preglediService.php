@@ -2,9 +2,23 @@
 
 namespace App\services;
 
+require_once __DIR__ . '/ProjectService.php';
+require_once __DIR__ . '/../dao/PreglediDao.php';
+
 use App\dao\PreglediDao;
 
-class PreglediService {
+class PreglediService extends ProjectService {
+
+    public function __construct() {
+        $dao = new PreglediDao();
+        parent::__construct($dao);
+    }
+
+    public function getByCheckID($id) {
+        return $this->dao->preglediPoID($id);
+    }
+
+ /*
 
     private $dao;
 
@@ -37,4 +51,5 @@ class PreglediService {
 
         return $this->dao->obrisiPregled($id);
     }
+    */
 }

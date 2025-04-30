@@ -2,9 +2,23 @@
 
 namespace App\services;
 
+require_once __DIR__ . '/ProjectService.php';
+require_once __DIR__ . '/../dao/TerapijaDao.php';
+
 use App\dao\TerapijaDao;
 
-class TerapijaServices {
+class TerapijaServices extends ProjectService {
+
+    public function __construct() {
+        $dao = new TerapijaDao();
+        parent::__construct($dao);
+    }
+
+    public function getByTherapyID($id) {
+        return $this->dao->getTherapyByID($id);
+    }
+
+    /*
 
     private $dao;
 
@@ -38,4 +52,5 @@ class TerapijaServices {
         return $this->dao->deleteTherapy($id);
 
     }
+    */
 }

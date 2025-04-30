@@ -1,11 +1,23 @@
 <?php
 namespace App\services;
 
+require_once __DIR__ . '/ProjectService.php';
+require_once __DIR__ . '/../dao/PacijentDao.php';
+
 use App\dao\PacijentDao;
 
+class PacijentService extends ProjectService {
+    
+    public function __construct() {
+        $dao = new PacijentDao();
+        parent::__construct($dao);  
+    }
 
-class pacijentService {
+    public function getByPatientID($id) {
+        return $this->dao->getPatientByID($id);
+    }
 
+    /*
     private $dao;
     
     public function __construct(){
@@ -38,4 +50,22 @@ class pacijentService {
 
         return $this->dao->deletePatient($id);
     }
+
+
+    public function insert($data) {
+        $data = iterator_to_array($data);
+        var_dump($data);
+        $columns = implode(", ", array_keys($data));
+        $placeholders = ":" . implode(", :", array_keys($data));
+
+        var_dump($columns);
+        var_dump($placeholders);
+        die();
+
+        
+        $sql = "INSERT INTO " . $this->table . " ($columns) VALUES ($placeholders)";
+        $stmt = $this->connection->prepare($sql);
+        return $stmt->execute($data);
+    }
+    */ 
 }

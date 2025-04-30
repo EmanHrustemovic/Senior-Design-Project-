@@ -2,10 +2,23 @@
 
 namespace App\services;
 
+require_once __DIR__ . '/ProjectService.php';
+require_once __DIR__ . '/../dao/ZdravstveniKartonDao.php';
+
 use App\dao\ZdravstveniKartonDao;
 
-class zdravstveniKartonService {
+class ZdravstveniKartonService extends ProjectService {
 
+    public function __construct() {
+        $dao = new ZdravstveniKartonDao();
+        parent::__construct($dao);
+    }
+
+    public function getByMedicalRecordID($id) {
+        return $this->dao->kartoniPoID($id);
+    }
+    
+    /*
     private $dao;
 
     public function __construct(){
@@ -38,4 +51,5 @@ class zdravstveniKartonService {
 
         return $this->dao->obrisiKarton($id);
     }
+    */
 }
