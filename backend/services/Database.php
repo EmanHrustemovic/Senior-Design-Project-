@@ -1,5 +1,8 @@
 <?php
 
+require_once '../NewConfig.php';
+
+
 class Database {
    private static $host = 'localhost';
    private static $dbName = 'moje_zdravlje_a';

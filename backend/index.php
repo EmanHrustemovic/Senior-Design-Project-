@@ -1,6 +1,12 @@
 <?php
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 require 'vendor/autoload.php';
+require 'rest/services/AuthService.php';
+require_once __DIR__ .'rest/routes/AuthRoutes.php';
+
 
 require 'rest/DoctorRoutes.php';
 require 'rest/KorisnikRoutes.php';
@@ -25,6 +31,7 @@ Flight::register('laboratorija_service', 'App\services\LaboratorijaService');
 Flight::register('pacijent_service', 'App\services\PacijentService');
 Flight::register('pregledi_service', 'App\services\PreglediService');
 Flight::register('kartoni_service', 'App\services\PreglediService');
+Flight::register('auth_service','App\services\AuthService');
 
 
 
@@ -36,4 +43,29 @@ Flight::route('/emko', function(){
     echo 'hello world emkooo!';
 });
 
+Flight::route('/*', function() {
+    if(
+        strpos(Flight::request()->url, '/auth/login') === 0 ||
+        strpos(Flight::request()->url, '/auth/register') === 0
+    ) {
+        return TRUE;
+    } else {
+        try {
+            $token = Flight::request()->getHeader("Authentication");
+            if(!$token)
+                Flight::halt(401, "Missing authentication header");
+ 
+ 
+            $decoded_token = JWT::decode($token, new Key(Config::JWT_SECRET(), 'HS256'));
+ 
+ 
+            Flight::set('user', $decoded_token->user);
+            Flight::set('jwt_token', $token);
+            return TRUE;
+        } catch (\Exception $e) {
+            Flight::halt(401, $e->getMessage());
+        }
+    }
+ });
+ 
 Flight::start();
