@@ -1,5 +1,7 @@
 <?php
 
+namespace App\dao;
+
 require_once __DIR__ . '/ProjectDao.php';
 
 use App\dao\ProjectDao;
@@ -17,5 +19,4 @@ class AuthDao extends ProjectDao{
         $query = "SELECT * FROM " . $this->table_name . " WHERE email = :email";
         return $this->query_unique($query, ['email' => $email]);
     }
- 
 }
