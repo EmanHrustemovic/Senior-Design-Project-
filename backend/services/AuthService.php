@@ -1,15 +1,19 @@
 <?php
+
 require_once 'ProjectService.php';
 require_once __DIR__ . '/../dao/AuthDao.php';
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+use App\services\ProjectService;
+use App\dao\AuthDao;
 
 class AuthService extends ProjectService {
    private $auth_dao;
    public function __construct() {
        $this->auth_dao = new AuthDao();
-       parent::__construct(new AuthDao);
+       parent::__construct($this->auth_dao);
    }
 
 
@@ -23,21 +27,16 @@ class AuthService extends ProjectService {
            return ['success' => false, 'error' => 'Morate unijeti email i password.'];
        }
 
-
        $email_exists = $this->auth_dao->get_user_by_email($entity['email']);
        if($email_exists){
            return ['success' => false, 'error' => 'Email je već registrovan.'];
        }
 
-
        $entity['password'] = password_hash($entity['password'], PASSWORD_BCRYPT);
-
 
        $entity = parent::add($entity);
 
-
        unset($entity['password']);
-
 
        return ['success' => true, 'data' => $entity];             
    }
@@ -48,16 +47,13 @@ class AuthService extends ProjectService {
            return ['success' => false, 'error' => 'Morate unijeti email i password.'];
        }
 
-
        $user = $this->auth_dao->get_user_by_email($entity['email']);
        if(!$user){
            return ['success' => false, 'error' => 'Ne važeći username ili password.'];
        }
 
-
        if(!$user || !password_verify($entity['password'], $user['password']))
            return ['success' => false, 'error' => 'Ne važeći username ili password.'];
-
 
        unset($user['password']);
       
@@ -66,8 +62,7 @@ class AuthService extends ProjectService {
            'iat' => time(),
            'exp' => time() + (60 * 60 * 24) // valid for day
        ];
-
-
+       
        $token = JWT::encode(
            $jwt_payload,
            Config::JWT_SECRET(),

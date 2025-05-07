@@ -1,6 +1,8 @@
 <?php
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+
 Flight::group('/auth', function() {
    /**
     * @OA\Post(
@@ -21,7 +23,7 @@ Flight::group('/auth', function() {
     *                 @OA\Property(
     *                     property="password",
     *                     type="string",
-    *                     example="some_password",
+    *                     example="neki_password",
     *                     description="Korisnikov password"
     *                 ),
     *                 @OA\Property(
@@ -65,7 +67,7 @@ Flight::group('/auth', function() {
     *      summary="Ulazak na aplikaciju pomoću email-a i passworda",
     *      @OA\Response(
     *           response=200,
-    *           description="Korisnički podatci i  JWT"
+    *           description="Korisnički podatci i  JWT."
     *      ),
     *      @OA\RequestBody(
     *          description="Akreditacije",
