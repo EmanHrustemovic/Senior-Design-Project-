@@ -8,4 +8,3 @@ class Roles {
     const KORISNIK = "user";
 
 }
-
