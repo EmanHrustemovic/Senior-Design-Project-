@@ -1,6 +1,8 @@
 <?php
 
 namespace App\dao;
+use PDO;
+
 
 require_once __DIR__ . '/ProjectDao.php';
 
@@ -11,8 +13,8 @@ class AuthDao extends ProjectDao{
     protected $table_name;
     
     public function __construct() {
-        $this->$table_name = 'user';
-        parent::__construct($this->$table_name);
+        $this->table_name = 'user';
+        parent::__construct($this->table_name);
     }
 
     public function get_user_by_email($email) {
