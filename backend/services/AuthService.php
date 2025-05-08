@@ -2,6 +2,8 @@
 
 namespace App\services;
 
+require_once __DIR__ . '/config.php';
+
 require_once 'ProjectService.php';
 require_once __DIR__ . '/../dao/AuthDao.php';
 
@@ -10,6 +12,7 @@ use Firebase\JWT\Key;
 
 use App\services\ProjectService;
 use App\dao\AuthDao;
+use Flight;
 
 class AuthService extends ProjectService {
    private $auth_dao;
@@ -31,15 +34,14 @@ class AuthService extends ProjectService {
 
        $email_exists = $this->auth_dao->get_user_by_email($entity['email']);
        if($email_exists){
-           return ['success' => false, 'error' => 'Email je već registrovan.'];
+           Flight::halt(409, 'Email je već registrovan.');
        }
 
        $entity['password'] = password_hash($entity['password'], PASSWORD_BCRYPT);
 
-       $entity = parent::add($entity);
-
+       $inserted = parent::add($entity);
        unset($entity['password']);
-
+       
        return ['success' => true, 'data' => $entity];             
    }
 

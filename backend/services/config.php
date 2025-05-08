@@ -27,5 +27,10 @@ class Database {
        return self::$connection;
    }
 }
+class Config {
+    public static function JWT_SECRET() {
+        return 'aa68644b6dde3f13b99ef790ba7388956a70a24efdd07ea2161612b8a49db7fe';
+    }
+}
 
 ?>
