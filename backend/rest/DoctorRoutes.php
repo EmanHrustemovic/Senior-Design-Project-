@@ -1,7 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../dao/DoctorDao.php';
+require_once __DIR__ . '/../data/Roles.php';
 use App\dao\DoctorDao;
+use App\middleware\PatientMiddleware;
 
 
 /**
@@ -16,6 +18,7 @@ use App\dao\DoctorDao;
  * )
  */
 Flight::route('GET /doctors', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::KORISNIK);
     Flight::json(Flight::doctor_service()->getAll());
 });
 
