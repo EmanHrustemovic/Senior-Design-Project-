@@ -1,5 +1,12 @@
 <?php
 
+namespace App\services;
+
+/*
+use PDO;
+use PDOException;
+*/
+
 class Database {
    private static $host = 'localhost';
    private static $dbName = 'moje_zdravlje_a';

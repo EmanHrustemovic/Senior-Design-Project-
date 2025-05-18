@@ -2,9 +2,12 @@
 
 require_once __DIR__ . '/../dao/DoctorDao.php';
 require_once __DIR__ . '/../data/Roles.php';
-use App\dao\DoctorDao;
-use App\middleware\PatientMiddleware;
+require_once __DIR__ . '/../middleware/DoctorMiddleware.php';
+require_once __DIR__ . '/../middleware/PatientMiddleware.php';
 
+use App\dao\DoctorDao;
+use App\middleware\DoctorMiddleware;
+use App\middleware\PatientMiddleware;
 
 /**
  * @OA\Get(
@@ -18,7 +21,9 @@ use App\middleware\PatientMiddleware;
  * )
  */
 Flight::route('GET /doctors', function () {
-    Flight::auth_middleware()->authorizeRole(Roles::KORISNIK);
+    Flight::auth_middleware()->authorizeRole(Roles::KORISNIK, Roles::DOKTOR);
+    //Flight::doctor_middleware()->checkPermission(Roles::DOKTOR);
+    //Flight::patient_middleware()->checkPermission(Roles::KORISNIK);
     Flight::json(Flight::doctor_service()->getAll());
 });
 
@@ -120,7 +125,9 @@ Flight::route('PUT /doctors/@id', function ($id) {
  * )
  */
 Flight::route('DELETE /doctors/@id', function ($id) {
+    
     $deleted = Flight::doctor_service()->delete($id);
+    
     if ($deleted) {
         Flight::json(['message' => 'Doktor uspješno izbrisan.']);
     } else {

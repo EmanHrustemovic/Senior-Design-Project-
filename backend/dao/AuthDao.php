@@ -18,7 +18,15 @@ class AuthDao extends ProjectDao{
     }
 
     public function get_user_by_email($email) {
+        $query = "SELECT id, email, password, uloga AS role FROM " . $this->table_name . " WHERE email = :email";
+        return $this->query_unique($query, ['email' => $email]);
+    }
+
+    /*
+
+    public function get_user_by_email($email) {
         $query = "SELECT * FROM " . $this->table_name . " WHERE email = :email";
         return $this->query_unique($query, ['email' => $email]);
     }
+    */
 }

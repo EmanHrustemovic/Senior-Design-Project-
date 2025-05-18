@@ -2,29 +2,39 @@
 
 namespace App\middleware;
 
+require_once __DIR__ . '/BaseMiddleware.php';
+
+/*
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+*/
 use Flight;
  
-class PatientMiddleware{
+class PatientMiddleware extends BaseMiddleware{
 
-
-    public function checkPatient() {
-        
+    public function checkRole($requiredRole) {
+        parent::checkRole('patient');
+        /*
         $user = Flight::get('user'); 
         
         if ($user->role !== 'patient') {
             Flight::halt(403, 'Pristup odbijen: Samo pacijenti imaju pristup ovoj ruti.');
         }
+        */
     }
 
-    public function checkPatientPermission($permission) {
+    public function checkPermission($permission) {
+        parent::checkPermission($permission);
+        /*
         $user = Flight::get('user'); 
 
         if (!in_array($permission, $user->permissions)) {
             Flight::halt(403, 'Pristup odbijen: Nemate odgovarajuću dozvolu.');
         }
+        */
     }
+
+    /*
 
     public function authorizeRole($requiredRole){
         
@@ -45,6 +55,5 @@ class PatientMiddleware{
             Flight::halt(403, 'Pristup odbijen : Nemate profil kao pacijent na ovoj aplikaciji !');
         }
     }
-    
-    
+    */
 }

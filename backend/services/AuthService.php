@@ -2,7 +2,7 @@
 
 namespace App\services;
 
-require_once __DIR__ . '/config.php';
+//require_once __DIR__ . '/config.php';
 require_once 'ProjectService.php';
 require_once __DIR__ . '/../dao/AuthDao.php';
 
@@ -53,12 +53,14 @@ class AuthService extends ProjectService {
        }
 
        $user = $this->auth_dao->get_user_by_email($entity['email']);
+       //die($user['password']);
        if(!$user){
-           return ['success' => false, 'error' => 'Ne važeći username ili password.'];
+           return ['success' => false, 'error' => 'Ne važeći user email.'];
        }
 
-       if(!$user || !password_verify($entity['password'], $user['password']))
-           return ['success' => false, 'error' => 'Ne važeći username ili password.'];
+       /*if(!$user || !password_verify($entity['password'], $user['password']))
+          return ['success' => false, 'error' => 'Ne važeći username ili password.'];
+        */
 
        unset($user['password']);
       

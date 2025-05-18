@@ -4,7 +4,9 @@ namespace App\middleware;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use App\services\Config;
 use Flight;
+
 
 class AuthMiddleware{
     
