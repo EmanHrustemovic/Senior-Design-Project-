@@ -12,7 +12,6 @@ use Firebase\JWT\Key;
 use App\services\ProjectService;
 use App\dao\AuthDao;
 use Flight;
-use \Config;
 
 
 class AuthService extends ProjectService {

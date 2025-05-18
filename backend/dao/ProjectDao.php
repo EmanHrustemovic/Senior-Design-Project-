@@ -1,7 +1,7 @@
 <?php
 namespace App\dao;
 
-//use \Database;
+use App\services\Database;
 
 //require_once __DIR__ . "/../services/config.php";
 
