@@ -20,18 +20,18 @@ class DoctorDao extends ProjectDao {
     }
 
     public function getByDocID($id) {
-        $stmt = $this->connection->prepare("SELECT * FROM doktor_info WHERE user_id = :id");
+        $stmt = $this->connection->prepare("SELECT * FROM doktor_info WHERE id = :id");
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch();
     }
 
-    public function addDoctor($user_id, $titula, $odjeljenje) {
-        $sql = "INSERT INTO doktor_info (user_id, titula, odjeljenje) 
-                VALUES (:user_id, :titula, :odjeljenje)";
+    public function addDoctor($id, $titula, $odjeljenje) {
+        $sql = "INSERT INTO doktor_info (id, titula, odjeljenje) 
+                VALUES (:id, :titula, :odjeljenje)";
         $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':id', $id);
         $stmt->bindParam(':titula', $titula);
         $stmt->bindParam(':odjeljenje', $odjeljenje);
 
@@ -40,11 +40,11 @@ class DoctorDao extends ProjectDao {
 
     public function updateDoctor($id, $data) {
         $sql = "UPDATE doktor_info 
-                SET user_id = :user_id, titula = :titula, odjeljenje = :odjeljenje 
-                WHERE user_id = :id";
+                SET id = :id, titula = :titula, odjeljenje = :odjeljenje 
+                WHERE id = :id";
         $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindParam(':user_id', $data->user_id);
+        $stmt->bindParam(':id', $data->id);
         $stmt->bindParam(':titula', $data->titula);
         $stmt->bindParam(':odjeljenje', $data->odjeljenje);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -53,7 +53,7 @@ class DoctorDao extends ProjectDao {
     }
 
     public function deleteDoctor($id) {
-        $stmt = $this->connection->prepare("DELETE FROM doktor_info WHERE user_id = :id");
+        $stmt = $this->connection->prepare("DELETE FROM doktor_info WHERE id = :id");
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         return $stmt->execute();
     }

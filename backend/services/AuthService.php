@@ -16,6 +16,7 @@ use Flight;
 
 class AuthService extends ProjectService {
    private $auth_dao;
+   
    public function __construct() {
        $this->auth_dao = new AuthDao();
        parent::__construct($this->auth_dao);
@@ -25,7 +26,6 @@ class AuthService extends ProjectService {
    public function get_user_by_email($email){
        return $this->auth_dao->get_user_by_email($email);
    }
-
 
    public function register($entity) {  
        if (empty($entity['email']) || empty($entity['password'])) {
@@ -57,17 +57,27 @@ class AuthService extends ProjectService {
            return ['success' => false, 'error' => 'Ne važeći user email.'];
        }
 
-       /*if(!$user || !password_verify($entity['password'], $user['password']))
+       if(!$user || !password_verify($entity['password'], $user['password']))
           return ['success' => false, 'error' => 'Ne važeći username ili password.'];
-        */
+        
 
        unset($user['password']);
-      
+      /*
        $jwt_payload = [
            'user' => $user,
            'iat' => time(),
            'exp' => time() + (60 * 60 * 24) // valid for day
        ];
+       */
+      $jwt_payload = [
+        'user' => [
+            'id' => $user['id'],
+            'email' => $user['email'],
+            'role' => $user['role']
+        ],
+        'iat' => time(),
+        'exp' => time() + (60 * 60 * 24) // valid for day 
+        ];
        
        $token = JWT::encode(
            $jwt_payload,

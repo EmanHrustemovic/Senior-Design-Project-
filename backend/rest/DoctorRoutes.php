@@ -21,9 +21,6 @@ use App\middleware\PatientMiddleware;
  * )
  */
 Flight::route('GET /doctors', function () {
-    Flight::auth_middleware()->authorizeRole(Roles::KORISNIK, Roles::DOKTOR);
-    //Flight::doctor_middleware()->checkPermission(Roles::DOKTOR);
-    //Flight::patient_middleware()->checkPermission(Roles::KORISNIK);
     Flight::json(Flight::doctor_service()->getAll());
 });
 
@@ -46,6 +43,7 @@ Flight::route('GET /doctors', function () {
  * )
  */
 Flight::route('GET /doctors/@id', function ($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR, Roles::KORISNIK);
     Flight::json(Flight::doctor_service()->getById($id));
 });
 
@@ -69,7 +67,8 @@ Flight::route('GET /doctors/@id', function ($id) {
  *     )
  * )
  */
-Flight::route('POST /doctors/add', function () {
+Flight::route('POST /doctors/add', function () {//RADI
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data->getData();
     Flight::doctor_service()->create($data);
     Flight::json(['message' => 'Doktor uspješno dodat.']);
@@ -101,6 +100,7 @@ Flight::route('POST /doctors/add', function () {
  * )
  */
 Flight::route('PUT /doctors/@id', function ($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data->getData();
     Flight::doctor_service()->update($id, $data);
     Flight::json(['message' => 'Doktor uspješno ažuriran.']);
@@ -125,9 +125,9 @@ Flight::route('PUT /doctors/@id', function ($id) {
  * )
  */
 Flight::route('DELETE /doctors/@id', function ($id) {
-    
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $deleted = Flight::doctor_service()->delete($id);
-    
+    //RADI
     if ($deleted) {
         Flight::json(['message' => 'Doktor uspješno izbrisan.']);
     } else {

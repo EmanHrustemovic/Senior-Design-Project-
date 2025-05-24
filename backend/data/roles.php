@@ -3,8 +3,10 @@
 
 class Roles {
 
-    const DOKTOR = "doctor";
+    const ADMIN = "admin";
     
-    const KORISNIK = "user";
+    const DOKTOR = "doktor";
+    
+    const KORISNIK = "korisnik";
 
 }

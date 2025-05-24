@@ -28,6 +28,7 @@ class AuthMiddleware{
         
         $user = Flight::get('user');
 
+
         if ($user->role !== $requiredRole){
 
             Flight::halt(403,'Pristup odbijen : Nemate potrebna ovlaštenja !');
