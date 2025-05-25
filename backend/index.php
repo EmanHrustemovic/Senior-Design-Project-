@@ -7,8 +7,7 @@ require 'vendor/autoload.php';
 require __DIR__ . "/services/config.php";
 require 'services/AuthService.php';
 require __DIR__ . "/middleware/AuthMiddleware.php";
-require __DIR__ . "/middleware/DoctorMiddleware.php";
-require __DIR__ . "/middleware/PatientMiddleware.php";
+
 
 
 Flight::register('doctor_service', 'App\\services\\DoctorService');
@@ -20,8 +19,6 @@ Flight::register('pregledi_service', 'App\services\PreglediService');
 Flight::register('kartoni_service', 'App\services\PreglediService');
 Flight::register('auth_service','App\services\AuthService');
 Flight::register('auth_middleware', "App\middleware\AuthMiddleware");
-Flight::register('doctor_middleware', 'App\middleware\DoctorMiddleware');
-Flight::register('patient_middleware', 'App\middleware\PatientMiddleware');
 Flight::register('config', 'App\services\config');
 
 
