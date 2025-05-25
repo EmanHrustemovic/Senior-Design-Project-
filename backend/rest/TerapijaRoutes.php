@@ -114,7 +114,7 @@ Flight::route('POST /therapy/add', function(){
  */
 Flight::route('PUT /therapy/@id',function($id){
     Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
-    $data = Flight::request()->data;
+    $data = Flight::request()->data->getData();
     $updated_therapy = Flight::terapija_service()->update($id, $data);  
     Flight::json(['message' => 'Terapija uspješno ažurirana.']);
 });

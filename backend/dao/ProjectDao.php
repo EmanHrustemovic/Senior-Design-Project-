@@ -3,7 +3,6 @@ namespace App\dao;
 
 use App\services\Database;
 
-//require_once __DIR__ . "/../services/config.php";
 
 class ProjectDao {
     
