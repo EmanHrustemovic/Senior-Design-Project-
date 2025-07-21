@@ -3,7 +3,7 @@ body{
 
 }
 form{
-    max-width: 300px;
+    /*max-width: 300px;*/
     margin: 40px auto;
     background: white;
     padding: 50px;

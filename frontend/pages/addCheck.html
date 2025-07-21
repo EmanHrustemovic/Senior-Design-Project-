@@ -1,0 +1,40 @@
+    <link rel="stylesheet" href="../css/medicalCheck.css">
+
+
+<body>
+    <h5 class="title">Pregledi</h5>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12 mx-auto p-3">
+                <div class="search">
+                    <button type="button" class="btn btn-primary" onclick="getPatients()">Load Patients</button>
+                    <hr>
+                    <select class="form-select d-none" aria-label="Default select example" id="patients">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-12 mx-auto p-3">
+                <form class="signup-form" id="check-form" onsubmit="addCheck(event)">
+                    <div class="mb-3">
+                        <label for="naziv" class="form-label">Naziv</label>
+                        <input type="text" class="form-control" id="naziv" name="naziv" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="opis" class="form-label">Opis</label>
+                        <textarea class="form-control" id="opis" name="opis" > </textarea>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="submit">
+                </form>
+        </div>
+    </div>
+
+
+

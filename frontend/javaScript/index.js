@@ -1,13 +1,16 @@
 const routes = {
     homePage: "mainPage.html",
-    login: "login.html",
+    login: "registrate.html",
     registration: "registration.html",
     password: "password.html",
     healthCard: "healthCard.html",
     laboratory: "laboratory.html",
     medicalCheck: "medicalCheck.html",
     profil: "userProfile.html",
-    theraphy: "theraphy.html"
+    theraphy: "theraphy.html",
+    mainForDoc: "mainForDoc.html",
+    addCheck: "addCheck.html",
+
   };
   
   function loadPage(page) {
@@ -55,3 +58,5 @@ const routes = {
     }
     loadPage(page);
   });
+
+

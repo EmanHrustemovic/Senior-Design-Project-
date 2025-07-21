@@ -50,6 +50,8 @@ Flight::route('GET /checks/@id', function($id) {
     Flight::json($check);
 });
 
+
+
 /**
  * @OA\Post(
  *     path="/checks/add",
@@ -78,8 +80,7 @@ Flight::route('GET /checks/@id', function($id) {
  */
 Flight::route('POST /checks/add', function() {
     Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
-    $data = Flight::request()->data;
-
+    $data = Flight::request()->data->getData();
     $new_check = Flight::pregledi_service()->add($data);
 
     Flight::json(['message' => 'Pregled uspješno dodat.']);

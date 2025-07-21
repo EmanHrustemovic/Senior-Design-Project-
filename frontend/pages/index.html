@@ -7,10 +7,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <title>Moje Zdravlje</title>
   <link rel="stylesheet" href="../css/index.css">
-  
+
 </head>
 <body>
-  
+
   <nav>
     <a href="#homePage">Početna</a>
     <a href="#login">Prijava</a>
@@ -21,6 +21,8 @@
     <a href="#laboratory">Laboratorija</a>
     <a href="#medicalCheck">Pregledi</a>
     <a href="#theraphy">Terapija</a>
+    <a href="#mainForDoc">mainForDoc</a>
+    <a href="#addCheck">addCheck</a>
   </nav>
 
   <div id="app">
@@ -28,6 +30,90 @@
     <p>Koristite navigaciju za pregled različitih sekcija.</p>
   </div>
 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="../javaScript/index.js"></script>
+
+<script src="../javaScript/registrate.js"></script>
+<script src="../javaScript/client/constants.js"></script>
+<script src="../javaScript/client/jqueryClient.js"></script>
+<script src="../javaScript/client/auth-service.js"></script>
+<script src="../javaScript/client/user-service.js"></script>
+<script src="../javaScript/client/checks-service.js"></script>
+
+
+  <script>
+    loginUser = (event) => {
+      event.preventDefault();
+      const email = $('#email').val();
+      const password = $('#password').val();
+      console.log("AUTHHHHH", AuthService);
+      AuthService.init();
+
+    };
+    registerUser = (event) => {
+      console.log("registerUser@@@@@@@@@@");
+      event.preventDefault();
+      const email = $('#email').val();
+      const password = $('#password').val();
+      const ime = $('#name').val();
+      const prezime = $('#lastName').val();
+      console.log("REGISTER", email, password, ime, prezime);
+      AuthService.register(email, password, ime, prezime);
+
+    };
+    getPatients = () => {
+      console.log("getPatients@@@@@@@@@@");
+
+      UserService.getPatients();
+
+    };
+    showDocMenu = () => {
+
+      const $docMenu = $("#docMenu");
+      // Show the select (remove d-none)
+      $docMenu.removeClass("d-none");
+
+    };
+    goToAddCheck = () => {
+      event.preventDefault();
+
+      window.location.replace("#addCheck")
+
+    };
+    addCheck = () => {
+      event.preventDefault();
+
+      console.log("addCheck@@@@@@@@@@");
+      const patientId = $('#patients').val();
+      const naziv = $('#naziv').val();
+      const opis = $('#opis').val();
+
+      console.log("===", naziv, opis, patientId);
+      ChecksService.addCheck(naziv, opis, patientId);
+
+    };
+    getChecks = () => {
+      event.preventDefault();
+
+      console.log("addCheck@@@@@@@@@@");
+      const patientId = $('#patients').val();
+      const naziv = $('#naziv').val();
+      const opis = $('#opis').val();
+
+      console.log("===", naziv, opis, patientId);
+      ChecksService.getChecks();
+
+    };
+
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      UserService.getPatients();
+    });
+  </script>
 </body>
 </html>

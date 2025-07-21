@@ -17,6 +17,9 @@ class KorisnikService extends ProjectService {
     public function getByEmail($email) { //ne znam moram li ovo imati ? 
         return $this->dao->getByEmail($email);
     }
+    public function getAllPatients() {
+        return $this->dao->getAllPatients();
+    }
 
     /*
 

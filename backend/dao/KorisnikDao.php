@@ -59,5 +59,11 @@ class KorisnikDao extends ProjectDao {
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function getAllPatients() {
+        $stmt = $this->connection->prepare("SELECT * FROM user WHERE uloga = 'pacijent'");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

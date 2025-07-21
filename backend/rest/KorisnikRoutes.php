@@ -14,9 +14,14 @@ use App\dao\KorisnikDao;
  *     )
  * )
  */
-Flight::route('GET /user', function() {
-    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+Flight::route('GET /users', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     Flight::json(Flight::korisnik_service()->getAll());
+});
+
+Flight::route('GET /users/patients', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
+    Flight::json(Flight::korisnik_service()->getAllPatients());
 });
 
 /**
