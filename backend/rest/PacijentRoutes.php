@@ -157,3 +157,14 @@ Flight::route('DELETE /patient/@id', function($id) {
         Flight::json(['message'=>'Ne postoji'], 404);
     }
 });
+
+
+Flight::route('GET /patient/searchByJmbg/@jmbg', function($jmbg){
+    //$dao = new PacijentDao(); 
+    $pacijent = light::pacijent_service()->getByJMBG($jmbg);
+    if ($pacijent) {
+        Flight::json($pacijent);
+    } else {
+        Flight::halt(404, 'Pacijent nije pronađen');
+    }
+});

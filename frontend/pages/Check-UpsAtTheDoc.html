@@ -46,7 +46,7 @@
                                 <th scope="col">Naziv pregleda</th>
                                 <th scope="col">Datum i vrijeme</th>
                                 <th scope="col">Status pregleda</th>
-                                <th scope="col">Lokacija</th>
+                                <th scope="col">Odjeljenje</th>
                                 <th scope="col">Doktor</th>
                                 <th scope="col">Kratki opis</th>
                                 <th scope="col">Rezultati</th>
@@ -55,16 +55,25 @@
                         </thead>
                         <tbody id="checkUps-for-doc">
                             <tr>
-                                <td><input id="checks" type="text" class="form-control" placeholder="Pregled"></td>
-                                <td><input  id="meeting" type="text" class="form-control" placeholder="Datum"></td>
-                                <td><input id="phase" type="datetime" class="form-control" placeholder="Status"></td>
-                                <td><input id="hospital" type="date" class="form-control" placeholder="Odjeljenje"></td>
-                                <td><input  id="doctor" type="text" class="form-control" placeholder="Doktor"></td>
-                                <td><input id="description" type="text" class="form-control" placeholder="Opis"></td>
-                                <td><input id="result" type="file" class="form-control" placeholder="Rezultat"></td>
-                                <td><input id="recommendation" type="text" class="form-control" placeholder="Preporuka"></td>
+                                <td><input name="nazivPregleda" id="checks" type="text" class="form-control"
+                                        placeholder="Pregled"></td>
+                                <td><input name="datum_vrijeme" id="meeting" type="datetime-local" class="form-control"
+                                        placeholder="Datum"></td>
+                                <td><input name="status" id="phase" type="text" class="form-control"
+                                        placeholder="Status"></td>
+                                <td><input name="odjeljenje_id" id="hospital" type="number" class="form-control"
+                                        placeholder="Odjeljenje ID"></td>
+                                <td><input name="doktor" id="doctor" type="text" class="form-control"
+                                        placeholder="Doktor"></td>
+                                <td><input name="opis" id="description" type="text" class="form-control"
+                                        placeholder="Opis"></td>
+                                <td><input name="rezultati" id="result" type="text" class="form-control"
+                                        placeholder="Rezultat (naziv fajla)"></td>
+                                <td><input name="preporuka" id="recommendation" type="text" class="form-control"
+                                        placeholder="Preporuka"></td>
+
                                 <td>
-                                    <button class="btn btn-success" id="uploadButton">Dodajte Vaš Nalaz</button>
+                                    <button class="btn btn-success" id="uploadButton">Dodajte Pregled</button>
                                     <input type="file" id="fileInput" style="display: none;">
                                     <span id="fileName" style="margin-left: 10px;"></span>
                                     <button class="btn btn-warning" id="editFile"

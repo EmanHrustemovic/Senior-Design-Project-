@@ -1,73 +1,88 @@
-/* Dugmad za doktora  */
-const uploadButton = document.querySelector("#uploadButton");
-const fileInput = document.querySelector("#fileInput");
-const errorMessage = document.querySelector("#errorMessage");
-const tableBody = document.querySelector("#theraphy-for-doc");
+document.addEventListener("DOMContentLoaded", function () {
+    // DOHVAĆANJE ELEMENATA
+    const uploadButton = document.querySelector('#uploadButton');
+    const fileInput = document.querySelector('#fileInput');
+    const tableBody = document.querySelector("#theraphy-for-doc");
 
-/*POLJA U TABLICI KOJA DR POPUNJAVA */
-const theraphy = document.querySelector('#theraphy');
-const directions = document.querySelector('#directions');
-const duration = document.querySelector('#duration');
-const control = document.querySelector('#control');
-const doctor = document.querySelector('#doctor');
+    const therapy = document.querySelector('#theraphy');
+    const directions = document.querySelector('#directions');
+    const duration = document.querySelector('#duration');
+    const control = document.querySelector('#control');
+    const doctor = document.querySelector('#doctor');
 
-/* FUNCKIJE I IMPLEMENTACIJA LOGIKE */
-
-uploadButton.addEventListener('click', e=>{
-    e.preventDefault();
-
-    if(validateFields()){
-        fileInput.click();
-    }else{
-        alert("Molimo Vas dokotre da popunite sva polja !");
+    // Provjeri da li svi elementi postoje
+    if (!uploadButton || !fileInput || !tableBody || !therapy || !directions || !duration || !control || !doctor) {
+        console.error("Jedan ili više elemenata nisu pronađeni u DOM-u!");
+        return;
     }
-});
 
-fileInput.addEventListener('change' , e=>{
-    e.preventDefault();
-    
-    if(fileInput.files.length>0){
-        addingRows();
-        deleteRow();
+    // DUGME
+    uploadButton.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (!validateFields()) {
+            alert("Molimo Vas doktore da popunite sva polja!");
+            return;
+        }
+
+        // FORMIRANJE PODATAKA
+        const terapija = {
+            terapija_id: Math.floor(Math.random() * 100000), // ili prepusti backendu
+            vrsta: therapy.value,
+            doza_i_uputa: directions.value,
+            trajanje: duration.value,
+            kontrola: control.value,
+            doktor_id: 1,       // zamijeni pravim ID-om
+            pregledi_id: 1      // zamijeni pravim ID-om
+        };
+
+        // AJAX POZIV
+        $.ajax({
+            url: "http://localhost/sdp/therapy/add", // PROMIJENI ako ti je druga ruta
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(terapija),
+            success: function (response) {
+                console.log("Uspješno dodano:", response);
+                addToTable(terapija);
+                resetFields();
+                alert("Terapija je uspješno dodana!");
+            },
+            error: function (xhr, status, error) {
+                console.error("Greška:", xhr.responseText);
+                alert("Greška pri dodavanju terapije!");
+            }
+        });
+    });
+
+    // DODAVANJE REDA U TABLICU
+    function addToTable(item) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.vrsta}</td>
+            <td>${item.doza_i_uputa}</td>
+            <td>${item.trajanje}</td>
+            <td>${item.kontrola}</td>
+            <td>${doctor.value}</td>
+            <td><button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Obriši</button></td>
+        `;
+        tableBody.appendChild(row);
     }
+
+    // VALIDACIJA
+    function validateFields() {
+        return [therapy, directions, duration, control, doctor]
+            .every(input => input.value.trim() !== '');
+    }
+
+    // RESET POLJA
+    function resetFields() {
+        [therapy, directions, duration, control, doctor]
+            .forEach(input => input.value = '');
+    }
+
+    // BRISANJE
+    window.deleteRow = function (btn) {
+        btn.closest('tr').remove();
+    };
 });
-
-
-function addingRows(){
-    const useTheraphy = theraphy.value;
-    const useDirections = directions.value;
-    const useDurations = duration.value;
-    const settingControl = control.value;
-    const yourDoctor = doctor.value;
-
-    const file = fileInput.files[0].name;
-    
-    const row = document.createElement('tr');
-
-    row.innerHTML= `
-        <td>${useTheraphy}</td>
-        <td>${useDirections}</td>
-        <td>${useDurations}</td>
-        <td>${settingControl}</td>
-        <td>${yourDoctor}</td>
-        <td>${file}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Izbriši nalaz</button></td>
-    `;
-    tableBody.appendChild(row);
-
-};
-
-function deleteRow(button){
-    button.closest('tr').remove();
-
-};
-
-function validateFields(){
-    console.log(document.querySelectorAll("input:not([type='file'])")); 
-    return [...document.querySelectorAll("input:not([type='file'])")].every(input => input.value.trim() !== "");
-
-};
-
-function deleteFields(){
-    return document.querySelectorAll("input:not([type='file'])").forEach(input=>input.value = " ");
-};

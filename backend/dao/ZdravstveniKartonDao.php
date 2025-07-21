@@ -28,25 +28,27 @@ class ZdravstveniKartonDao extends ProjectDao {
         return $stmt->fetch();
     }
 
-    public function dodajKarton($id, $sifraBolesti, $nazivBolesti, $dijagnoza, $terapija, $pacijent_id, $pregledi_id, $doktor_id) {
-        $sql = "INSERT INTO zdravstvenikarton 
-                    (id, sifraBolesti, nazivBolesti, dijagnoza, terapija, pacijent_id, pregledi_id, doktor_id) 
-                VALUES 
-                    (:id, :sifraBolesti, :nazivBolesti, :dijagnoza, :terapija, :pacijent_id, :pregledi_id, :doktor_id)";
+    public function dodajKarton($sifraBolesti, $nazivBolesti, $dijagnoza, $terapija, $pacijent_id, $pregledi_id, $doktor_id) {
+    $sql = "INSERT INTO zdravstvenikarton 
+                (sifraBolesti, nazivBolesti, dijagnoza, terapija, pacijent_id, pregledi_id, doktor_id) 
+            VALUES 
+                (:sifraBolesti, :nazivBolesti, :dijagnoza, :terapija, :pacijent_id, :pregledi_id, :doktor_id)";
 
-        $stmt = $this->connection->prepare($sql);
+    $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->bindParam(':sifraBolesti', $sifraBolesti);
-        $stmt->bindParam(':nazivBolesti', $nazivBolesti);
-        $stmt->bindParam(':dijagnoza', $dijagnoza);
-        $stmt->bindParam(':terapija', $terapija);
-        $stmt->bindParam(':pacijent_id', $pacijent_id, PDO::PARAM_INT);
-        $stmt->bindParam(':pregledi_id', $pregledi_id, PDO::PARAM_INT);
-        $stmt->bindParam(':doktor_id', $doktor_id, PDO::PARAM_INT);
+    $stmt->bindParam(':sifraBolesti', $sifraBolesti);
+    $stmt->bindParam(':nazivBolesti', $nazivBolesti);
+    $stmt->bindParam(':dijagnoza', $dijagnoza);
+    $stmt->bindParam(':terapija', $terapija);
+    $stmt->bindParam(':pacijent_id', $pacijent_id, PDO::PARAM_INT);
+    $stmt->bindParam(':pregledi_id', $pregledi_id, PDO::PARAM_INT);
+    $stmt->bindParam(':doktor_id', $doktor_id, PDO::PARAM_INT);
 
-        $stmt->execute();
-    }
+    $stmt->execute();
+
+    return $this->connection->lastInsertId();  // možeš vratiti ID unosa
+}
+
 
     public function izmjeniKarton($id, $data) {
         $sql = "UPDATE zdravstvenikarton SET 

@@ -1,6 +1,6 @@
 const routes = {
     homePage: "mainPage.html",
-    login: "login.html",
+    login: "registrate.html",
     registration: "registration.html",
     password: "password.html",
     healthCard: "healthCard.html",

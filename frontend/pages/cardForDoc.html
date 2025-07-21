@@ -33,6 +33,7 @@
         </div>
     </header>
 
+    <!---
     <body>
         <div class="d-flex justify-content-center">
             <div class="col-md-6 text-center">
@@ -60,7 +61,39 @@
             </div>
         </div>
 
+    </body> --->
+
+    <body>
+        <div class="d-flex justify-content-center">
+            <div class="col-md-8 text-center">
+                <table class="table table-hover table-white" id="nalaziTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Naziv Bolesti</th>
+                            <th scope="col">Dijagnoza</th>
+                            <th scope="col">Terapija</th>
+                            <th scope="col">Zadnji pregled</th>
+                            <th scope="col">Nalaz i mišljenje specijaliste</th>
+                            <th scope="col">Akcija</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name="nazivBolesti" class="form-control" placeholder="Naziv bolesti">
+                            </td>
+                            <td><input type="text" name="dijagnoza" class="form-control" placeholder="Dijagnoza"></td>
+                            <td><input type="text" name="terapija" class="form-control" placeholder="Terapija"></td>
+                            <td><input type="date" name="zadnjiPregled" class="form-control"></td>
+                            <td><input type="text" name="nalaz" class="form-control" placeholder="Nalaz i mišljenje">
+                            </td>
+                            <td><button class="btn btn-success" id="btnAddNalaz">Dodajte Vaš Nalaz</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </body>
+
     <footer>
         <p class="clinics">Bolnička odjeljenja</p>
         <ul class="clinic-list">

@@ -1,77 +1,93 @@
-/* ELEMENTI DOHVAĆENI*/
+// ELEMENTI DOHVAĆENI
 const uploadButton = document.querySelector('#uploadButton');
 const fileInput = document.querySelector('#fileInput');
 const fileName = document.querySelector('#fileName');
-const editFile= document.querySelector('#editFile');
+const editFile = document.querySelector('#editFile');
 const deleteFile = document.querySelector('#deleteFile');
 const errorMessage = document.querySelector('#errorMessage');
 const tableBody = document.querySelector("table tbody");
 
-
-/*POLJA ZA POPUNJAVANJE*/
+// POLJA ZA POPUNJAVANJE
 const code = document.querySelector('#code');
 const check = document.querySelector('#check');
 const sample = document.querySelector('#sample');
 const time = document.querySelector('#time');
 const phase = document.querySelector('#phase');
 
-/* FUNCKIJE I IMPLEMENTACIJA LOGIKE */
-
-uploadButton.addEventListener('click', e=>{
+// EVENT HANDLER – kada doktor klikne dugme
+uploadButton.addEventListener('click', async (e) => {
     e.preventDefault();
-    console.log("ValidateFilds" , validateFields());
 
-    if(validateFields()){
-        fileInput.click();
-    }else{
-        alert("Molimo Vas dokotre da popunite sva polja !");
+    if (!validateFields()) {
+        alert("Molimo Vas doktore da popunite sva polja!");
+        return;
+    }
+
+    const nalaz = {
+        šifraNalaza: parseInt(code.value),
+        tipNalaza: check.value,
+        vrsta_uzorka: sample.value,
+        datum_obrade: time.value + " 00:00:00",  // datetime format
+        status: phase.value,
+        pregledi_id: 1 // privremeno dok se ne poveže sa pregledima
+    };
+
+    try {
+        const response = await fetch("http://localhost/sdp/labs/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+                // Authorization: "Bearer tvojToken" ako koristiš zaštitu
+            },
+            body: JSON.stringify(nalaz)
+        });
+
+        if (!response.ok) throw new Error("Greška u dodavanju nalaza.");
+
+        const data = await response.json();
+        console.log("Uspješno dodat nalaz:", data);
+
+        // Dodaj red u tabelu
+        addingRowToTable(nalaz);
+
+        // Očisti polja
+        deleteFields();
+
+        alert("Nalaz uspješno dodat!");
+
+    } catch (error) {
+        console.error("Greška:", error);
+        alert("Dodavanje nalaza nije uspjelo.");
     }
 });
 
-fileInput.addEventListener('change' , e=>{
-    e.preventDefault();
-    
-    if(fileInput.files.length>0){
-        addingRows();
-        deleteRow();
-    }
-});
-
-function addingRows(){
-    const useCode = code.value;
-    const useCheck = check.value;
-    const useSample = sample.value;
-    const settingTime = time.value;
-    const inPhase = phase.value;
-
-    const file = fileInput.files[0].name;
-    
+// Dodaje red u tabelu na stranici
+function addingRowToTable(nalaz) {
     const row = document.createElement('tr');
-
-    row.innerHTML= `
-        <td>${useCode}</td>
-        <td>${useCheck}</td>
-        <td>${useSample}</td>
-        <td>${settingTime}</td>
-        <td>${inPhase}</td>
-        <td>${file}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Izbriši nalaz</button></td>
+    row.innerHTML = `
+        <td>${nalaz.šifraNalaza}</td>
+        <td>${nalaz.tipNalaza}</td>
+        <td>${nalaz.vrsta_uzorka}</td>
+        <td>${nalaz.datum_obrade}</td>
+        <td>${nalaz.status}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Izbriši</button></td>
     `;
     tableBody.appendChild(row);
+}
 
-};
+// Validacija polja
+function validateFields() {
+    return [...document.querySelectorAll("input:not([type='file'])")]
+        .every(input => input.value.trim() !== "");
+}
 
-function deleteRow(button){
+// Brisanje inputa
+function deleteFields() {
+    document.querySelectorAll("input:not([type='file'])")
+        .forEach(input => input.value = "");
+}
+
+// Brisanje reda iz tabele
+function deleteRow(button) {
     button.closest('tr').remove();
-
-};
-
-function validateFields(){
-    console.log(document.querySelectorAll("input:not([type='file'])")); 
-    return [...document.querySelectorAll("input:not([type='file'])")].every(input => input.value.trim() !== "");
-
-};
-
-function deleteFields(){
-    return document.querySelectorAll("input:not([type='file'])").forEach(input=>input.value = " ");
-};
+}

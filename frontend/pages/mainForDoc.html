@@ -40,9 +40,14 @@
                     <div class="card p-4 mt-3">
                         <h3 class="heading mt-5 text-center">Pretraga pacijenata po njihovom JMBG</h3>
                         <div class="d-flex justify-content-center px-5">
-                            <div class="search"> <input type="text" class="search-input" placeholder="JMBG" name=""> <a
-                                    href="#" class="search-icon"> <i class="fa fa-search"></i> </a> </div>
+                            <div class="search">
+                                <input type="text" id="search-jmbg" class="search-input" placeholder="JMBG">
+                                <a href="#" id="search-btn" class="search-icon">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
                         </div>
+                        <div class="mt-4 text-center" id="pacijent-info"></div>
                         <div class="row mt-4 g-1 px-4 mb-5">
                             <div class="col-md-2">
                                 <div class="card-inner p-3 d-flex flex-column align-items-center">
