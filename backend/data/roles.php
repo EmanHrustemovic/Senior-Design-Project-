@@ -7,6 +7,6 @@ class Roles {
     
     const DOKTOR = "doktor";
     
-    const KORISNIK = "korisnik";
+    const PACIJENT = "pacijent";
 
 }

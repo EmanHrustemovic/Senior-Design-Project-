@@ -44,7 +44,7 @@ function updateProgress() {
         progress += 2;
         setTimeout(updateProgress, 200);
     } else {
-        window.location.href = "registrate.html";
+        window.location.href = "login.html";
     }
 }
 
