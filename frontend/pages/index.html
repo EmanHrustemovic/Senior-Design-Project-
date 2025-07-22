@@ -42,6 +42,8 @@
 <script src="../javaScript/client/auth-service.js"></script>
 <script src="../javaScript/client/user-service.js"></script>
 <script src="../javaScript/client/checks-service.js"></script>
+  <script src="../javaScript/theraphy.js"></script>
+
 
 
   <script>
@@ -105,6 +107,19 @@
 
       console.log("===", naziv, opis, patientId);
       ChecksService.getChecks();
+
+    };
+    getPatientChecks = () => {
+      event.preventDefault();
+
+      console.log("addCheck@@@@@@@@@@");
+      const patientId = $('#patients').val();
+      const naziv = $('#naziv').val();
+      const opis = $('#opis').val();
+
+      console.log("===", naziv, opis, patientId);
+      let id = localStorage.getItem("user_id");
+      ChecksService.getPatientChecks(id);
 
     };
 

@@ -33,10 +33,11 @@ let AuthService = {
                 console.log("🚀 ~ response:", response)
                 let role = response.data.role;
                 localStorage.setItem("user_token", response.data.token);
+                localStorage.setItem("user_id", response.data.id);
 
-                if (role === "admin") {
-                    window.location.replace("#dashboard");
-                    swal("🚀 Role: ", role, 'success');
+                if (role === "pacijent") {
+                    window.location.replace("#homePage");
+                    //swal("🚀 Role: ", role, 'success');
                 } else if (role === "doktor") {
                     window.location.replace("#mainForDoc");
                 } else {

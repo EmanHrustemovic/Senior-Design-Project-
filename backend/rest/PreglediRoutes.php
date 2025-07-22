@@ -21,7 +21,7 @@ Flight::route('GET /connection-check', function() {
  * )
  */
 Flight::route('GET /checks', function() {
-    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR, Roles::KORISNIK);
+    //Flight::auth_middleware()->authorizeRole(Roles::DOKTOR, Roles::PACIJENT);
     $all_checks = Flight::pregledi_service()->getAll();
     Flight::json($all_checks);
 });

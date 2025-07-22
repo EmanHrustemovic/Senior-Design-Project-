@@ -28,7 +28,7 @@ let UserService = {
     },
 
     getPatients: function () {
-        RestClient.requestWpromise("backend/users/patients", "GET")
+        RestClient.requestWpromise("/backend/users/patients", "GET")
             .done(response => {
                 console.log("🚀 ~ response:", response)
 
